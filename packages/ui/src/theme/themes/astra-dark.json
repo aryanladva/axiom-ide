@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/desktop-theme.json",
+  "name": "Astra Dark",
+  "id": "astra-dark",
+  "dark": {
+    "palette": {
+      "neutral": "#0a0a0f",
+      "ink": "#e8e8f0",
+      "primary": "#6d5ef8",
+      "accent": "#8b7bff",
+      "success": "#3ecf8e",
+      "warning": "#f5a623",
+      "error": "#ef5b5b",
+      "info": "#5ba3f5",
+      "diffAdd": "#2fbf71",
+      "diffDelete": "#ef5b5b"
+    },
+    "overrides": {
+      "syntax-comment": "#6b6b80",
+      "syntax-keyword": "#8b7bff",
+      "syntax-string": "#3ecf8e",
+      "syntax-primitive": "#5ba3f5",
+      "syntax-property": "#6d5ef8",
+      "syntax-constant": "#f5a623"
+    }
+  },
+  "light": {
+    "palette": {
+      "neutral": "#f7f7fb",
+      "ink": "#15151f",
+      "primary": "#5b4bdb",
+      "accent": "#6d5ef8",
+      "success": "#1fa971",
+      "warning": "#c47f0f",
+      "error": "#d13d3d",
+      "info": "#2f7fd1",
+      "diffAdd": "#1fa971",
+      "diffDelete": "#d13d3d"
+    },
+    "overrides": {
+      "syntax-comment": "#7a7a8a",
+      "syntax-keyword": "#5b4bdb",
+      "syntax-string": "#1fa971",
+      "syntax-primitive": "#2f7fd1",
+      "syntax-property": "#5b4bdb",
+      "syntax-constant": "#c47f0f"
+    }
+  }
+}

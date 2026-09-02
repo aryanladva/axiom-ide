@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#0f111a"/>
+  <path d="M256 96L336 240H176L256 96Z" fill="#8b5cf6"/>
+  <path d="M256 96L384 384H312L256 264L200 384H128L256 96Z" fill="url(#astra-grad)"/>
+  <defs>
+    <linearGradient id="astra-grad" x1="128" y1="96" x2="384" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+</svg>

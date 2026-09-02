@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/desktop-theme.json",
+  "name": "Axiom",
+  "id": "axiom",
+  "dark": {
+    "palette": {
+      "neutral": "#161616",
+      "ink": "#ececec",
+      "primary": "#d97757",
+      "accent": "#e8916b",
+      "success": "#4a9b6e",
+      "warning": "#d9a441",
+      "error": "#d9534f",
+      "info": "#6ba3d6",
+      "diffAdd": "#4a9b6e",
+      "diffDelete": "#d9534f"
+    },
+    "overrides": {
+      "syntax-comment": "#7c7c7c",
+      "syntax-keyword": "#e8916b",
+      "syntax-string": "#4a9b6e",
+      "syntax-primitive": "#6ba3d6",
+      "syntax-property": "#d97757",
+      "syntax-constant": "#d9a441"
+    }
+  },
+  "light": {
+    "palette": {
+      "neutral": "#faf9f7",
+      "ink": "#1a1a1a",
+      "primary": "#c1602f",
+      "accent": "#d97757",
+      "success": "#2f8f5e",
+      "warning": "#b8842f",
+      "error": "#c0392b",
+      "info": "#4a7fa8",
+      "diffAdd": "#2f8f5e",
+      "diffDelete": "#c0392b"
+    },
+    "overrides": {
+      "syntax-comment": "#7a7a8a",
+      "syntax-keyword": "#c1602f",
+      "syntax-string": "#2f8f5e",
+      "syntax-primitive": "#4a7fa8",
+      "syntax-property": "#d97757",
+      "syntax-constant": "#b8842f"
+    }
+  }
+}

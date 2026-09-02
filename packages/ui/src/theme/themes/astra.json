@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opencode.ai/desktop-theme.json",
+  "name": "Astra Neon",
+  "id": "astra",
+  "light": {
+    "palette": {
+      "neutral": "#f8fafc",
+      "ink": "#0f172a",
+      "primary": "#7c3aed",
+      "accent": "#06b6d4",
+      "success": "#059669",
+      "warning": "#d97706",
+      "error": "#dc2626",
+      "info": "#2563eb",
+      "diffAdd": "#16a34a",
+      "diffDelete": "#e11d48"
+    },
+    "overrides": {
+      "syntax-comment": "#64748b",
+      "syntax-keyword": "#7c3aed",
+      "syntax-string": "#059669",
+      "syntax-primitive": "#06b6d4",
+      "syntax-property": "#2563eb",
+      "syntax-constant": "#d97706"
+    }
+  },
+  "dark": {
+    "palette": {
+      "neutral": "#0f111a",
+      "ink": "#e6edf3",
+      "primary": "#8b5cf6",
+      "accent": "#38bdf8",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "error": "#ef4444",
+      "info": "#3b82f6",
+      "diffAdd": "#22c55e",
+      "diffDelete": "#f43f5e"
+    },
+    "overrides": {
+      "syntax-comment": "#64748b",
+      "syntax-keyword": "#c084fc",
+      "syntax-string": "#34d399",
+      "syntax-primitive": "#38bdf8",
+      "syntax-property": "#60a5fa",
+      "syntax-constant": "#fbbf24"
+    }
+  }
+}
