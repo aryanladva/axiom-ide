@@ -15,23 +15,28 @@ import { Script } from "@axiom-ai/script"
 await $`mkdir -p dist/node`
 
 await Bun.build({
-  target: "bun",
+  target: "node",
   format: "esm",
-  entrypoints: ["./src/index.ts"],
+  entrypoints: ["./src/node.ts"],
   outdir: "./dist/node",
   naming: "node.js",
+  plugins: [
+    {
+      name: "jsonc-parser-esm",
+      setup(build) {
+        build.onResolve({ filter: /^jsonc-parser$/ }, async () => {
+          const resolved = await import.meta.resolve("jsonc-parser")
+          return {
+            path: fileURLToPath(resolved.replace("/lib/umd/main.js", "/lib/esm/main.js")),
+          }
+        })
+      },
+    },
+  ],
   external: [
     "node-gyp",
     "fsevents",
     "@lydell/node-pty",
-    "@opentui/core-darwin-x64",
-    "@opentui/core-darwin-arm64",
-    "@opentui/core-linux-x64",
-    "@opentui/core-linux-arm64",
-    "@opentui/core-linux-x64-musl",
-    "@opentui/core-linux-arm64-musl",
-    "@opentui/core-win32-arm64",
-    "@opentui/core-win32-x64",
   ],
   define: {
     OPENCODE_VERSION: `'${Script.version}'`,
