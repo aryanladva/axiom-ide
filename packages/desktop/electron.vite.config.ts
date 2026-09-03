@@ -2,6 +2,7 @@ import { sentryVitePlugin } from "@sentry/vite-plugin"
 import { defineConfig } from "electron-vite"
 import appPlugin from "@axiom-ai/app/vite"
 import * as fs from "node:fs/promises"
+import * as path from "node:path"
 
 const OPENCODE_SERVER_DIST = "../opencode/dist/node"
 
@@ -66,7 +67,10 @@ const require = __cjs_mod__.createRequire(import.meta.url);
         name: "opencode:virtual-server-module",
         enforce: "pre",
         resolveId(id) {
-          if (id === "virtual:opencode-server") return this.resolve(`${OPENCODE_SERVER_DIST}/node.js`)
+          if (id === "virtual:opencode-server")
+            return path.resolve(import.meta.dirname, OPENCODE_SERVER_DIST, "node.js")
+          if (id.includes("opencode-web-ui.gen") || id.startsWith("@opentui/core-"))
+            return { id, external: true }
         },
       },
       {
