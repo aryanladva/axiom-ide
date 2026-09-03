@@ -32,7 +32,7 @@ async function signWindows(configuration: { path: string }) {
 const channel = (() => {
   const raw = process.env.AXIOM_CHANNEL ?? process.env.OPENCODE_CHANNEL
   if (raw === "dev" || raw === "beta" || raw === "prod") return raw
-  return "dev"
+  return "prod"
 })()
 
 const APP_IDS = {
@@ -42,7 +42,7 @@ const APP_IDS = {
 } as const
 
 const getBase = (appId: string): Configuration => ({
-  artifactName: "opencode-desktop-${os}-${arch}.${ext}",
+  artifactName: "axiom-desktop-${os}-${arch}.${ext}",
   directories: {
     output: "dist",
     buildResources: "resources",
@@ -71,6 +71,7 @@ const getBase = (appId: string): Configuration => ({
       to: "native/",
       filter: ["index.js", "index.d.ts", "build/Release/mac_window.node", "swift-build/**"],
     },
+    { from: "../../LICENSE", to: "LICENSE.txt" },
   ],
   mac: {
     category: "public.app-category.developer-tools",
@@ -138,7 +139,7 @@ function getConfig() {
         appId,
         productName: "AXIOM Beta",
         protocols: { name: "AXIOM Beta", schemes: ["axiom"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "opencode-beta", channel: "latest" },
+        publish: { provider: "github", owner: "aryanladva", repo: "axiom-ide", channel: "latest" },
         deb: { fpm: [metainfoFpm(appId)] },
         rpm: { packageName: "axiom-beta", fpm: [metainfoFpm(appId)] },
       }
@@ -149,7 +150,7 @@ function getConfig() {
         appId,
         productName: "AXIOM",
         protocols: { name: "AXIOM", schemes: ["axiom"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "opencode", channel: "latest" },
+        publish: { provider: "github", owner: "aryanladva", repo: "axiom-ide", channel: "latest" },
         deb: { fpm: [metainfoFpm(appId), legacyDesktopEntryFpm] },
         rpm: { packageName: "axiom", fpm: [metainfoFpm(appId), legacyDesktopEntryFpm] },
       }
