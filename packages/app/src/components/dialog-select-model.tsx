@@ -2,6 +2,7 @@ import { Popover as Kobalte } from "@kobalte/core/popover"
 import { Component, ComponentProps, createEffect, createMemo, For, JSX, Show } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLocal } from "@/context/local"
+import { useServerSync } from "@/context/server-sync"
 import { useDialog } from "@axiom-ai/ui/context/dialog"
 import { popularProviders } from "@/hooks/use-providers"
 import { Button } from "@axiom-ai/ui/button"
@@ -61,8 +62,27 @@ const ModelList: Component<{
       .filter((m) => (props.provider ? m.provider.id === props.provider : true)),
   )
 
+  const serverSync = useServerSync()
+  const isOllamaConfigured = createMemo(() => {
+    const config = serverSync().data.config
+    return Boolean(config.provider?.["ollama"]) && !config.disabled_providers?.includes("ollama")
+  })
+  const hasOllamaModels = createMemo(() => models().some((m) => m.provider.id === "ollama"))
+  const showOllamaWarning = createMemo(() => {
+    if (props.provider === "ollama" && !hasOllamaModels()) return true
+    if (isOllamaConfigured() && !hasOllamaModels()) return true
+    return false
+  })
+
   return (
-    <List
+    <>
+      <Show when={showOllamaWarning()}>
+        <div class="flex items-center gap-2 mx-3 my-2 px-2.5 py-1.5 rounded bg-background-critical/10 border border-border-critical text-12-regular text-text-critical">
+          <Icon name="warning" size="small" class="shrink-0" />
+          <span>Ollama not detected — make sure it's running on localhost:11434</span>
+        </div>
+      </Show>
+      <List
       class={`flex-1 px-3 min-h-0 [&_[data-slot=list-scroll]]:flex-1 [&_[data-slot=list-scroll]]:min-h-0 ${props.class ?? ""}`}
       search={{ placeholder: language.t("dialog.model.search.placeholder"), autofocus: true, action: props.action }}
       emptyMessage={language.t("dialog.model.empty")}
@@ -109,6 +129,7 @@ const ModelList: Component<{
         </div>
       )}
     </List>
+    </>
   )
 }
 
@@ -309,6 +330,18 @@ function ModelSelectorPopoverV2View(props: {
   const models = createMemo(() => props.models(store.search))
   const groups = createMemo(() => props.groups(models()))
   const keys = () => [...models().map(modelKey), manageKey]
+
+  const serverSync = useServerSync()
+  const isOllamaConfigured = createMemo(() => {
+    const config = serverSync().data.config
+    return Boolean(config.provider?.["ollama"]) && !config.disabled_providers?.includes("ollama")
+  })
+  const hasOllamaModels = createMemo(() => models().some((m) => m.provider.id === "ollama"))
+  const showOllamaWarning = createMemo(() => {
+    if (isOllamaConfigured() && !hasOllamaModels()) return true
+    if (store.search.trim().toLowerCase().includes("ollama") && !hasOllamaModels()) return true
+    return false
+  })
   const initialActive = () => {
     const selected = props.current()
     const options = keys()
@@ -437,6 +470,12 @@ function ModelSelectorPopoverV2View(props: {
             </div>
           </div>
           <div class="h-px bg-v2-border-border-muted" />
+          <Show when={showOllamaWarning()}>
+            <div class="flex items-center gap-2 m-1.5 px-2.5 py-1.5 rounded bg-v2-background-bg-critical-subtle/20 border border-v2-border-border-critical/30 text-[11px] leading-tight text-v2-text-text-critical">
+              <Icon name="warning" size="small" class="shrink-0" />
+              <span>Ollama not detected — make sure it's running on localhost:11434</span>
+            </div>
+          </Show>
           <ScrollView data-slot="model-selector-scroll" class="max-h-[220px] min-h-0">
             <div class="flex flex-col p-0.5 pt-0">
               <Show

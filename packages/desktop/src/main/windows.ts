@@ -16,6 +16,7 @@ import { nativeT } from "./native-translations"
 import { createWindowRegistry } from "./window-registry"
 import { safeWindowURL } from "./window-state"
 import { resolveExternalURL, resolveLocalFilePath } from "./external-url"
+import { CHANNEL } from "./constants"
 
 const root = dirname(fileURLToPath(import.meta.url))
 const rendererRoot = join(root, "../renderer")
@@ -180,7 +181,7 @@ export function createMainWindow(id: string = randomUUID()) {
     height: state.height,
     show: false,
     autoHideMenuBar: true,
-    title: "AXIOM",
+    title: app.isPackaged ? (CHANNEL === "prod" ? "AXIOM" : CHANNEL === "beta" ? "AXIOM Beta" : "AXIOM Dev") : "AXIOM Dev",
     icon: iconPath(),
     backgroundColor: backgroundColor ?? defaultBackgroundColor(),
     ...(process.platform === "darwin"
@@ -202,6 +203,10 @@ export function createMainWindow(id: string = randomUUID()) {
       nodeIntegration: false,
       sandbox: true,
     },
+  })
+
+  win.on("page-title-updated", (e) => {
+    e.preventDefault()
   })
 
   allowRendererPermissions(win)

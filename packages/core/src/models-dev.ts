@@ -131,6 +131,23 @@ export const Provider = Schema.Struct({
 
 export type Provider = Schema.Schema.Type<typeof Provider>
 
+export const OLLAMA_PROVIDER: Provider = {
+  id: "ollama",
+  name: "Ollama",
+  npm: "@ai-sdk/openai-compatible",
+  api: "http://localhost:11434/v1",
+  env: [],
+  models: {},
+}
+
+function withOllama(record: Record<string, Provider> | undefined): Record<string, Provider> {
+  const result = record ? { ...record } : {}
+  if (!result["ollama"]) {
+    result["ollama"] = OLLAMA_PROVIDER
+  }
+  return result
+}
+
 export const Event = ModelsDev.Event
 
 declare const OPENCODE_MODELS_DEV: Record<string, Provider> | undefined
@@ -216,10 +233,10 @@ const layer = Layer.effect(
 
     const populate = Effect.gen(function* () {
       const fromDisk = yield* loadFromDisk
-      if (fromDisk) return fromDisk
+      if (fromDisk) return withOllama(fromDisk)
       const snapshot = yield* loadSnapshot
-      if (snapshot) return snapshot
-      if (Flag.OPENCODE_DISABLE_MODELS_FETCH) return {}
+      if (snapshot) return withOllama(snapshot)
+      if (Flag.OPENCODE_DISABLE_MODELS_FETCH) return withOllama({})
       // Flock is cross-process: concurrent opencode CLIs can race on this cache file.
       const text = yield* Effect.scoped(
         Effect.gen(function* () {
@@ -227,7 +244,7 @@ const layer = Layer.effect(
           return yield* fetchAndWrite()
         }),
       )
-      return JSON.parse(text) as Record<string, Provider>
+      return withOllama(JSON.parse(text) as Record<string, Provider>)
     }).pipe(Effect.withSpan("ModelsDev.populate"), Effect.orDie)
 
     const [cachedGet, invalidate] = yield* Effect.cachedInvalidateWithTTL(populate, Duration.infinity)

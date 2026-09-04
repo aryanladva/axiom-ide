@@ -8,6 +8,7 @@ import { selectProviderCatalog } from "./provider-catalog"
 export const popularProviders = [
   "opencode",
   "opencode-go",
+  "ollama",
   "anthropic",
   "github-copilot",
   "openai",

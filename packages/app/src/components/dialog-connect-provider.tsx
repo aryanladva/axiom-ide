@@ -19,6 +19,7 @@ import {
   createEffect,
   createMemo,
   createResource,
+  createSignal,
   createUniqueId,
   For,
   Match,
@@ -75,6 +76,12 @@ export const DialogConnectProvider: Component<{
       <Switch>
         <Match when={controller.selected() === CUSTOM_ID}>
           <CustomProviderForm autofocus={!newLayout()} />
+        </Match>
+        <Match when={controller.selected() === "ollama"}>
+          <OllamaProviderConnection
+            onBack={reset}
+            setBack={(handler) => (back.current = handler)}
+          />
         </Match>
         <Match when={controller.selected() && controller.selected() !== CUSTOM_ID ? controller.selected() : undefined}>
           {(provider) => (
@@ -236,7 +243,7 @@ function ProviderPickerV2(props: {
     active: undefined as string | undefined,
     connecting: undefined as string | undefined,
   })
-  const featured = ["opencode", "opencode-go", "anthropic", "openai", "google", "openrouter", "vercel"]
+  const featured = ["opencode", "opencode-go", "ollama", "anthropic", "openai", "google", "openrouter", "vercel"]
   const custom = () => ({ id: CUSTOM_ID, name: language.t("dialog.provider.custom.label") })
   const all = createMemo(() => {
     language.locale()
@@ -1178,6 +1185,235 @@ function ProviderConnection(props: {
             </Match>
           </Switch>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function OllamaProviderConnection(props: { onBack: () => void; setBack?: (handler: () => void) => void }) {
+  const dialog = useDialog()
+  const serverSync = useServerSync()
+  const serverSDK = useServerSDK()
+  const language = useLanguage()
+  const settings = useSettings()
+  const newLayout = settings.general.newLayoutDesigns
+
+  const [checking, setChecking] = createSignal(true)
+  const [error, setError] = createSignal<string | null>(null)
+  const [models, setModels] = createSignal<Array<{ name: string; size?: number; details?: { parameter_size?: string } }>>([])
+  const [connecting, setConnecting] = createSignal(false)
+
+  props.setBack?.(props.onBack)
+
+  const checkOllama = async () => {
+    setChecking(true)
+    setError(null)
+    try {
+      const res = await fetch("http://localhost:11434/api/tags", {
+        signal: AbortSignal.timeout(3000),
+      })
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`)
+      }
+      const data = (await res.json()) as {
+        models?: Array<{ name: string; size?: number; details?: { parameter_size?: string } }>
+      }
+      if (!data?.models) {
+        throw new Error("Invalid response")
+      }
+      setModels(data.models)
+      setChecking(false)
+    } catch {
+      setError("Ollama not detected — make sure it's running on localhost:11434")
+      setChecking(false)
+    }
+  }
+
+  onMount(() => {
+    void checkOllama()
+  })
+
+  const connect = async () => {
+    setConnecting(true)
+    try {
+      const nextDisabled = (serverSync().data.config.disabled_providers ?? []).filter((id) => id !== "ollama")
+      await serverSDK()
+        .client.auth.set({
+          providerID: "ollama",
+          auth: {
+            type: "api",
+            key: "ollama-local",
+          },
+        })
+        .catch(() => undefined)
+
+      await serverSync().updateConfig({
+        provider: {
+          ollama: {
+            name: "Ollama",
+            npm: "@ai-sdk/openai-compatible",
+            options: {
+              baseURL: "http://localhost:11434/v1",
+            },
+          },
+        },
+        disabled_providers: nextDisabled,
+      })
+      await serverSync().refreshProviders().catch(() => undefined)
+      dialog.close()
+      showToast({
+        variant: "success",
+        icon: "circle-check",
+        title: "Connected to Ollama",
+        description: `Ollama connected with ${models().length} local models.`,
+      })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to connect Ollama")
+    } finally {
+      setConnecting(false)
+    }
+  }
+
+  if (newLayout()) {
+    return (
+      <div class="flex min-h-0 flex-1 flex-col">
+        <div class="flex h-10 shrink-0 items-start gap-2 px-3">
+          <ProviderIcon id="ollama" class="mt-0.5 size-4 shrink-0 text-v2-icon-icon-base" />
+          <div class="text-[15px] font-[530] leading-5 tracking-[-0.13px] text-v2-text-text-base">
+            Ollama (Local)
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 px-3 py-2">
+          <div class="text-[13px] text-v2-text-text-muted">
+            Connect to your local Ollama instance running at <code class="rounded bg-v2-background-bg-layer-02 px-1 py-0.5 font-mono text-[12px] text-v2-text-text-base">http://localhost:11434</code>. No API key required.
+          </div>
+
+          <Show when={checking()}>
+            <div class="flex items-center gap-2.5 py-4 text-[13px] text-v2-text-text-muted">
+              <Spinner class="size-4" />
+              <span>Checking Ollama on localhost:11434...</span>
+            </div>
+          </Show>
+
+          <Show when={!checking() && error()}>
+            <div class="flex flex-col gap-3 rounded-md border border-v2-border-border-critical/30 bg-v2-background-bg-critical-subtle/20 p-3">
+              <div class="flex items-start gap-2 text-v2-text-text-critical text-[13px]">
+                <Icon name="warning" size="small" class="mt-0.5 shrink-0" />
+                <span>{error()}</span>
+              </div>
+              <ButtonV2
+                variant="outline"
+                size="small"
+                class="w-fit"
+                onClick={() => void checkOllama()}
+              >
+                Retry
+              </ButtonV2>
+            </div>
+          </Show>
+
+          <Show when={!checking() && !error()}>
+            <div class="flex flex-col gap-3">
+              <div class="text-[13px] text-v2-text-text-muted">
+                Detected <span class="font-medium text-v2-text-text-base">{models().length}</span> local models:
+              </div>
+              <div class="flex max-h-48 flex-wrap gap-1.5 overflow-y-auto rounded-md border border-v2-border-border-muted p-2">
+                <For each={models()}>
+                  {(m) => (
+                    <span class="inline-flex items-center gap-1 rounded bg-v2-background-bg-layer-02 px-2 py-1 text-[12px] font-mono text-v2-text-text-base">
+                      {m.name}
+                    </span>
+                  )}
+                </For>
+              </div>
+              <div class="pt-2">
+                <ButtonV2
+                  variant="contrast"
+                  size="normal"
+                  class="w-full justify-center"
+                  disabled={connecting()}
+                  onClick={() => void connect()}
+                >
+                  <Show when={connecting()} fallback="Connect Ollama">
+                    <Spinner class="size-4 mr-2" />
+                    Connecting...
+                  </Show>
+                </ButtonV2>
+              </div>
+            </div>
+          </Show>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div class="flex flex-col gap-6 px-2.5 pb-3">
+      <div class="flex items-center gap-4 px-2.5">
+        <ProviderIcon id="ollama" class="size-5 shrink-0 icon-strong-base" />
+        <div class="text-16-medium text-text-strong">Ollama (Local)</div>
+      </div>
+
+      <div class="flex flex-col gap-4 px-2.5 pb-6">
+        <div class="text-14-regular text-text-weak">
+          Connect to your local Ollama instance running at <code class="rounded bg-surface-base px-1 py-0.5 font-mono text-12-mono text-text-base">http://localhost:11434</code>. No API key required.
+        </div>
+
+        <Show when={checking()}>
+          <div class="flex items-center gap-2.5 py-4 text-13-regular text-text-weak">
+            <Spinner class="size-4" />
+            <span>Checking Ollama on localhost:11434...</span>
+          </div>
+        </Show>
+
+        <Show when={!checking() && error()}>
+          <div class="flex flex-col gap-3 rounded border border-border-critical bg-background-critical/10 p-3">
+            <div class="flex items-start gap-2 text-text-critical text-13-regular">
+              <Icon name="warning" size="small" class="mt-0.5 shrink-0" />
+              <span>{error()}</span>
+            </div>
+            <Button
+              variant="secondary"
+              size="small"
+              class="w-fit"
+              onClick={() => void checkOllama()}
+            >
+              Retry
+            </Button>
+          </div>
+        </Show>
+
+        <Show when={!checking() && !error()}>
+          <div class="flex flex-col gap-3">
+            <div class="text-13-regular text-text-weak">
+              Detected <span class="font-medium text-text-base">{models().length}</span> local models:
+            </div>
+            <div class="flex max-h-48 flex-wrap gap-1.5 overflow-y-auto rounded border border-border-base p-2">
+              <For each={models()}>
+                {(m) => (
+                  <span class="inline-flex items-center gap-1 rounded bg-surface-base px-2 py-1 text-12-mono text-text-base">
+                    {m.name}
+                  </span>
+                )}
+              </For>
+            </div>
+            <div class="pt-2">
+              <Button
+                variant="primary"
+                size="large"
+                class="w-full justify-center"
+                disabled={connecting()}
+                onClick={() => void connect()}
+              >
+                <Show when={connecting()} fallback="Connect Ollama">
+                  <Spinner class="size-4 mr-2" />
+                  Connecting...
+                </Show>
+              </Button>
+            </div>
+          </div>
+        </Show>
       </div>
     </div>
   )

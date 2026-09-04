@@ -37,6 +37,8 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   throw new Error(t("error.dev.rootNotFound"))
 }
 
+document.title = (import.meta.env.VITE_AXIOM_CHANNEL ?? import.meta.env.OPENCODE_CHANNEL) === "prod" ? "AXIOM" : "AXIOM Dev"
+
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,

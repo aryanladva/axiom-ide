@@ -726,6 +726,97 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         },
       }
     }),
+    ollama: Effect.fnUntraced(function* (input: Info) {
+      const cfg = yield* dep.config()
+      const isConfigured = Boolean(cfg.provider?.["ollama"])
+      const baseURL = cfg.provider?.["ollama"]?.options?.baseURL || "http://localhost:11434/v1"
+
+      return {
+        autoload: isConfigured,
+        options: {
+          baseURL,
+        },
+        async getModel(sdk: any, modelID: string, _options?: Record<string, any>) {
+          return sdk.languageModel(modelID)
+        },
+        async discoverModels(): Promise<Record<string, Model>> {
+          try {
+            const endpoint = baseURL.replace(/\/v1\/?$/, "") + "/api/tags"
+            const res = await fetch(endpoint, {
+              signal: AbortSignal.timeout(3000),
+            })
+            if (!res.ok) return {}
+            const data = (await res.json()) as {
+              models?: Array<{
+                name: string
+                model: string
+                modified_at?: string
+                size?: number
+                details?: {
+                  parameter_size?: string
+                  family?: string
+                  context_length?: number
+                }
+                capabilities?: string[]
+              }>
+            }
+            if (!data?.models?.length) return {}
+            const models: Record<string, Model> = {}
+            for (const m of data.models) {
+              const id = m.name || m.model
+              if (!id) continue
+              const caps = m.capabilities ?? []
+              const hasVision = caps.includes("vision") || id.includes("llava") || id.includes("vision")
+              const hasThinking = caps.includes("thinking") || id.includes("r1") || id.includes("deepseek")
+              const hasTools = caps.includes("tools") || !id.includes("embed")
+              const context = m.details?.context_length ?? 128000
+              models[id] = {
+                id: ModelV2.ID.make(id),
+                providerID: ProviderV2.ID.make("ollama"),
+                name: id,
+                family: m.details?.family ?? "",
+                api: {
+                  id,
+                  url: baseURL,
+                  npm: "@ai-sdk/openai-compatible",
+                },
+                status: "active",
+                headers: {},
+                options: {},
+                cost: { input: 0, output: 0, cache: { read: 0, write: 0 } },
+                limit: { context, output: 8192 },
+                capabilities: {
+                  temperature: true,
+                  reasoning: hasThinking,
+                  attachment: false,
+                  toolcall: hasTools,
+                  input: {
+                    text: true,
+                    audio: false,
+                    image: hasVision,
+                    video: false,
+                    pdf: false,
+                  },
+                  output: {
+                    text: true,
+                    audio: false,
+                    image: false,
+                    video: false,
+                    pdf: false,
+                  },
+                  interleaved: false,
+                },
+                variants: {},
+                release_date: m.modified_at ?? "",
+              }
+            }
+            return models
+          } catch (e) {
+            return {}
+          }
+        },
+      }
+    }),
     "cloudflare-workers-ai": Effect.fnUntraced(function* (input: Info) {
       // When baseURL is already configured (e.g. corporate config routing through a proxy/gateway),
       // skip the account ID check because the URL is already fully specified.
@@ -1594,18 +1685,20 @@ const layer = Layer.effect(
           mergeProvider(providerID, partial)
         }
 
-        const gitlab = ProviderV2.ID.make("gitlab")
-        if (discoveryLoaders[gitlab] && providers[gitlab] && isProviderAllowed(gitlab)) {
-          yield* Effect.promise(async () => {
-            try {
-              const discovered = await discoveryLoaders[gitlab]()
-              for (const [modelID, model] of Object.entries(discovered)) {
-                if (!providers[gitlab].models[modelID]) {
-                  providers[gitlab].models[modelID] = model
+        for (const [id, loader] of Object.entries(discoveryLoaders)) {
+          const pid = ProviderV2.ID.make(id)
+          if (providers[pid] && isProviderAllowed(pid)) {
+            yield* Effect.promise(async () => {
+              try {
+                const discovered = await loader()
+                for (const [modelID, model] of Object.entries(discovered)) {
+                  if (!providers[pid].models[modelID]) {
+                    providers[pid].models[modelID] = model
+                  }
                 }
-              }
-            } catch (e) {}
-          })
+              } catch (e) {}
+            })
+          }
         }
 
         for (const [id, provider] of Object.entries(providers)) {

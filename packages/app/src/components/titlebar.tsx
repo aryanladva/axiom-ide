@@ -649,24 +649,32 @@ function ChannelIndicator(props: { debugTools?: { visible: boolean; toggle: () =
   const channel = import.meta.env.VITE_AXIOM_CHANNEL ?? import.meta.env.VITE_OPENCODE_CHANNEL
   if (channel === "dev" && props.debugTools) {
     return (
-      <button
-        type="button"
-        class="bg-icon-interactive-base text-[#FFF] font-medium px-2 rounded-sm uppercase font-mono cursor-pointer"
-        onClick={props.debugTools.toggle}
-        aria-label="Toggle debug tools"
-        aria-pressed={props.debugTools.visible}
-      >
-        DEV
-      </button>
+      <Tooltip placement="bottom" value="AXIOM (Dev)">
+        <button
+          type="button"
+          class="bg-icon-interactive-base text-[#FFF] font-medium px-1.5 py-0.5 rounded-sm cursor-pointer flex items-center justify-center"
+          style={{ "--icon-base": "#FFF" }}
+          onClick={props.debugTools.toggle}
+          aria-label="Toggle debug tools"
+          aria-pressed={props.debugTools.visible}
+        >
+          <Icon name="flask" size="small" class="text-[#FFF]" />
+        </button>
+      </Tooltip>
     )
   }
 
   return (
     <>
       {["beta", "dev"].includes(channel) && (
-        <div class="bg-icon-interactive-base text-[#FFF] font-medium px-2 rounded-sm uppercase font-mono">
-          {channel.toUpperCase()}
-        </div>
+        <Tooltip placement="bottom" value={`AXIOM (${channel === "dev" ? "Dev" : channel.charAt(0).toUpperCase() + channel.slice(1)})`}>
+          <div
+            class="bg-icon-interactive-base text-[#FFF] font-medium px-1.5 py-0.5 rounded-sm flex items-center justify-center"
+            style={{ "--icon-base": "#FFF" }}
+          >
+            {channel === "dev" ? <Icon name="flask" size="small" class="text-[#FFF]" /> : channel.toUpperCase()}
+          </div>
+        </Tooltip>
       )}
     </>
   )

@@ -21,6 +21,7 @@ import { NvidiaPlugin } from "./provider/nvidia"
 import { OpenAIPlugin } from "./provider/openai"
 import { SnowflakeCortexPlugin } from "./provider/snowflake-cortex"
 import { OpenAICompatiblePlugin } from "./provider/openai-compatible"
+import { OllamaPlugin } from "./provider/ollama"
 import { OpencodePlugin } from "./provider/opencode"
 import { OpenRouterPlugin } from "./provider/openrouter"
 import { PerplexityPlugin } from "./provider/perplexity"
@@ -58,6 +59,7 @@ export const ProviderPlugins: PluginInternal.Plugin<PluginInternal.Requirements 
   OpencodePlugin,
   SnowflakeCortexPlugin,
   OpenAICompatiblePlugin,
+  OllamaPlugin,
   OpenAIPlugin,
   OpenRouterPlugin,
   PerplexityPlugin,
