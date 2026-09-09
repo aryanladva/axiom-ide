@@ -42,10 +42,6 @@ export const dict = {
   "desktop.menu.nextProject": "Neste prosjekt",
   "desktop.menu.minimize": "Minimer",
   "desktop.menu.maximize": "Maksimer",
-  "desktop.menu.documentation": "AXIOM-dokumentasjon",
-  "desktop.menu.supportForum": "Brukerstøtteforum",
-  "desktop.menu.shareFeedback": "Del tilbakemelding",
-  "desktop.menu.reportBug": "Rapporter en feil",
   "desktop.menu.ariaLabel": "AXIOM-meny",
 
   "desktop.updater.dialog.checkFailed.message": "Søket etter oppdateringer mislyktes.",

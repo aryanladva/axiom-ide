@@ -39,10 +39,6 @@ export const dict = {
   "desktop.menu.nextProject": "Следующий проект",
   "desktop.menu.minimize": "Свернуть",
   "desktop.menu.maximize": "Развернуть",
-  "desktop.menu.documentation": "Документация AXIOM",
-  "desktop.menu.supportForum": "Форум поддержки",
-  "desktop.menu.shareFeedback": "Отправить отзыв",
-  "desktop.menu.reportBug": "Сообщить об ошибке",
   "desktop.menu.ariaLabel": "Меню AXIOM",
 
   "desktop.updater.dialog.checkFailed.message": "Не удалось проверить наличие обновлений.",

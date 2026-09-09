@@ -39,10 +39,6 @@ export const dict = {
   "desktop.menu.nextProject": "Proyek berikutnya",
   "desktop.menu.minimize": "Minimalkan",
   "desktop.menu.maximize": "Maksimalkan",
-  "desktop.menu.documentation": "Dokumentasi AXIOM",
-  "desktop.menu.supportForum": "Forum dukungan",
-  "desktop.menu.shareFeedback": "Bagikan umpan balik",
-  "desktop.menu.reportBug": "Laporkan bug",
   "desktop.menu.ariaLabel": "Menu AXIOM",
 
   "desktop.updater.dialog.checkFailed.message": "Pemeriksaan pembaruan gagal.",

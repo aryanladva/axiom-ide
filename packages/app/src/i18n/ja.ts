@@ -39,10 +39,6 @@ export const dict = {
   "desktop.menu.nextProject": "次のプロジェクト",
   "desktop.menu.minimize": "最小化",
   "desktop.menu.maximize": "最大化",
-  "desktop.menu.documentation": "AXIOMドキュメント",
-  "desktop.menu.supportForum": "サポートフォーラム",
-  "desktop.menu.shareFeedback": "フィードバックを送信",
-  "desktop.menu.reportBug": "バグを報告",
   "desktop.menu.ariaLabel": "AXIOMメニュー",
 
   "desktop.updater.dialog.checkFailed.message": "アップデートを確認できませんでした。",

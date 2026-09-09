@@ -1094,10 +1094,6 @@ export const dict = {
   "desktop.menu.nextProject": "다음 프로젝트",
   "desktop.menu.minimize": "최소화",
   "desktop.menu.maximize": "최대화",
-  "desktop.menu.documentation": "AXIOM 문서",
-  "desktop.menu.supportForum": "지원 포럼",
-  "desktop.menu.shareFeedback": "피드백 보내기",
-  "desktop.menu.reportBug": "버그 신고",
   "desktop.menu.ariaLabel": "AXIOM 메뉴",
 
   "desktop.updater.dialog.checkFailed.message": "업데이트를 확인하지 못했습니다.",

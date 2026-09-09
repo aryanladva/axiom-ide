@@ -43,10 +43,6 @@ export const dict = {
   "desktop.menu.nextProject": "下一个项目",
   "desktop.menu.minimize": "最小化",
   "desktop.menu.maximize": "最大化",
-  "desktop.menu.documentation": "AXIOM 文档",
-  "desktop.menu.supportForum": "支持论坛",
-  "desktop.menu.shareFeedback": "提供反馈",
-  "desktop.menu.reportBug": "报告错误",
   "desktop.menu.ariaLabel": "AXIOM 菜单",
 
   "desktop.updater.dialog.checkFailed.message": "检查更新失败。",

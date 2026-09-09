@@ -43,10 +43,6 @@ export const dict = {
   "desktop.menu.nextProject": "Sonraki proje",
   "desktop.menu.minimize": "Simge durumuna küçült",
   "desktop.menu.maximize": "Ekranı kapla",
-  "desktop.menu.documentation": "AXIOM belgeleri",
-  "desktop.menu.supportForum": "Destek forumu",
-  "desktop.menu.shareFeedback": "Geri bildirim paylaş",
-  "desktop.menu.reportBug": "Hata bildir",
   "desktop.menu.ariaLabel": "AXIOM menüsü",
 
   "desktop.updater.dialog.checkFailed.message": "Güncellemeler kontrol edilemedi.",
