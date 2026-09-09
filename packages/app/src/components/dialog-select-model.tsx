@@ -62,9 +62,13 @@ const ModelList: Component<{
       .filter((m) => (props.provider ? m.provider.id === props.provider : true)),
   )
 
-  const serverSync = useServerSync()
+  let serverSync: ReturnType<typeof useServerSync> | undefined
+  try {
+    serverSync = useServerSync()
+  } catch {}
   const isOllamaConfigured = createMemo(() => {
-    const config = serverSync().data.config
+    const config = serverSync?.()?.data?.config
+    if (!config) return false
     return Boolean(config.provider?.["ollama"]) && !config.disabled_providers?.includes("ollama")
   })
   const hasOllamaModels = createMemo(() => models().some((m) => m.provider.id === "ollama"))
@@ -331,9 +335,13 @@ function ModelSelectorPopoverV2View(props: {
   const groups = createMemo(() => props.groups(models()))
   const keys = () => [...models().map(modelKey), manageKey]
 
-  const serverSync = useServerSync()
+  let serverSync: ReturnType<typeof useServerSync> | undefined
+  try {
+    serverSync = useServerSync()
+  } catch {}
   const isOllamaConfigured = createMemo(() => {
-    const config = serverSync().data.config
+    const config = serverSync?.()?.data?.config
+    if (!config) return false
     return Boolean(config.provider?.["ollama"]) && !config.disabled_providers?.includes("ollama")
   })
   const hasOllamaModels = createMemo(() => models().some((m) => m.provider.id === "ollama"))

@@ -1184,7 +1184,16 @@ export function toPublicInfo(provider: Info): Info {
 }
 
 export function defaultModelIDs<T extends { models: Record<string, { id: string }> }>(providers: Record<string, T>) {
-  return mapValues(providers, (item) => sort(Object.values(item.models))[0].id)
+  const result: Record<string, string> = {}
+  for (const [id, item] of Object.entries(providers)) {
+    const models = Object.values(item?.models ?? {})
+    if (models.length === 0) continue
+    const sorted = sort(models)
+    if (sorted[0]?.id) {
+      result[id] = sorted[0].id
+    }
+  }
+  return result
 }
 
 export class ModelNotFoundError extends Schema.TaggedErrorClass<ModelNotFoundError>()("ProviderModelNotFoundError", {
@@ -1498,18 +1507,26 @@ const layer = Layer.effect(
           const pluginAuth = yield* auth.get(providerID).pipe(Effect.orDie)
 
           provider.models = yield* Effect.promise(async () => {
-            const next = await models(toPublicInfo(provider), { auth: pluginAuth })
-            return Object.fromEntries(
-              Object.entries(next).map(([id, model]) => [
-                id,
-                {
-                  ...model,
-                  id: ModelV2.ID.make(id),
-                  providerID,
-                },
-              ]),
-            )
-          })
+            try {
+              const next = await models(toPublicInfo(provider), { auth: pluginAuth })
+              if (!next || typeof next !== "object") return provider.models
+              return Object.fromEntries(
+                Object.entries(next).map(([id, model]) => [
+                  id,
+                  {
+                    ...model,
+                    id: ModelV2.ID.make(id),
+                    providerID,
+                  },
+                ]),
+              )
+            } catch {
+              return provider.models
+            }
+          }).pipe(
+            Effect.catch(() => Effect.succeed(provider.models)),
+            Effect.catchDefect(() => Effect.succeed(provider.models)),
+          )
         }
 
         // extend database from config
@@ -1664,7 +1681,10 @@ const layer = Layer.effect(
           if (!data) {
             continue
           }
-          const result = yield* fn(data)
+          const result = yield* fn(data).pipe(
+            Effect.catch(() => Effect.succeed(undefined)),
+            Effect.catchDefect(() => Effect.succeed(undefined)),
+          )
           if (result && (result.autoload || providers[providerID])) {
             if (result.getModel) modelLoaders[providerID] = result.getModel
             if (result.vars) varsLoaders[providerID] = result.vars
@@ -1691,13 +1711,17 @@ const layer = Layer.effect(
             yield* Effect.promise(async () => {
               try {
                 const discovered = await loader()
+                if (!discovered || typeof discovered !== "object") return
                 for (const [modelID, model] of Object.entries(discovered)) {
                   if (!providers[pid].models[modelID]) {
                     providers[pid].models[modelID] = model
                   }
                 }
               } catch (e) {}
-            })
+            }).pipe(
+              Effect.ignore,
+              Effect.catchDefect(() => Effect.void),
+            )
           }
         }
 
@@ -2062,7 +2086,9 @@ const layer = Layer.effect(
       }
 
       const configured = Object.keys(cfg.provider ?? {})
-      const provider = Object.values(s.providers).find((p) => configured.length === 0 || configured.includes(p.id))
+      const provider =
+        Object.values(s.providers).find((p) => configured.includes(p.id) && Object.keys(p.models).length > 0) ??
+        Object.values(s.providers).find((p) => Object.keys(p.models).length > 0)
       if (!provider) return yield* new NoProvidersError()
       const [model] = sort(Object.values(provider.models))
       if (!model) return yield* new NoModelsError({ providerID: provider.id })

@@ -2063,3 +2063,24 @@ it.effect("opencode loader keeps paid models when auth exists", () =>
     expect(keyedCount).toBeGreaterThan(0)
   }).pipe(provideMultiInstance),
 )
+
+test("defaultModelIDs safely handles providers with empty models", () => {
+  const providers = {
+    ollama: { id: "ollama", models: {} },
+    openai: { id: "openai", models: { "gpt-4o": { id: "gpt-4o" } } },
+    empty: { id: "empty", models: {} },
+  }
+  const result = Provider.defaultModelIDs(providers)
+  expect(result).toEqual({ openai: "gpt-4o" })
+  expect(result.ollama).toBeUndefined()
+  expect(result.empty).toBeUndefined()
+})
+
+test("defaultModelIDs returns empty object when all providers have empty models", () => {
+  const providers = {
+    ollama: { id: "ollama", models: {} },
+  }
+  const result = Provider.defaultModelIDs(providers)
+  expect(result).toEqual({})
+})
+
