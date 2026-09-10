@@ -58,6 +58,21 @@ export type ElectronAPI = {
   setDisplayBackend: (backend: LinuxDisplayBackend | null) => Promise<void>
   checkAppExists: (appName: string) => Promise<boolean>
   resolveAppPath: (appName: string) => Promise<string | null>
+  checkOllama: (url?: string) => Promise<{
+    ok: boolean
+    models?: Array<{
+      name: string
+      model?: string
+      size?: number
+      details?: {
+        parameter_size?: string
+        family?: string
+        context_length?: number
+      }
+      capabilities?: string[]
+    }>
+    error?: string
+  }>
   storeGet: (name: string, key: string) => Promise<string | null>
   storeSet: (name: string, key: string, value: string) => Promise<void>
   storeDelete: (name: string, key: string) => Promise<void>

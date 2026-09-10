@@ -80,6 +80,44 @@ export function registerIpcHandlers(deps: Deps) {
   )
   ipcMain.handle("check-app-exists", (_event: IpcMainInvokeEvent, appName: string) => deps.checkAppExists(appName))
   ipcMain.handle("resolve-app-path", (_event: IpcMainInvokeEvent, appName: string) => deps.resolveAppPath(appName))
+  ipcMain.handle("ollama-check", async (_event: IpcMainInvokeEvent, targetUrl?: string) => {
+    const primary = (targetUrl || "http://localhost:11434").replace(/\/v1\/?$/, "").replace(/\/$/, "") + "/api/tags"
+    const urls = [primary]
+    if (primary.includes("localhost")) {
+      urls.push(primary.replace("localhost", "127.0.0.1"))
+    }
+    let lastError: unknown
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, { signal: AbortSignal.timeout(15000) })
+        if (!res.ok) {
+          lastError = new Error(`HTTP ${res.status}`)
+          continue
+        }
+        const data = (await res.json()) as {
+          models?: Array<{
+            name: string
+            model?: string
+            size?: number
+            details?: {
+              parameter_size?: string
+              family?: string
+              context_length?: number
+            }
+            capabilities?: string[]
+          }>
+        }
+        if (Array.isArray(data?.models)) {
+          return { ok: true, models: data.models }
+        }
+        lastError = new Error("Invalid response from Ollama API")
+      } catch (err) {
+        lastError = err
+      }
+    }
+    const message = lastError instanceof Error ? lastError.message : "Ollama not detected"
+    return { ok: false, error: message }
+  })
   ipcMain.handle("updater-subscribe", (event) => {
     const id = event.sender.id
     updaterSubscriptions.set(

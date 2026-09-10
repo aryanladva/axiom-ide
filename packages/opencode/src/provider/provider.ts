@@ -740,13 +740,13 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           return sdk.languageModel(modelID)
         },
         async discoverModels(): Promise<Record<string, Model>> {
-          try {
-            const endpoint = baseURL.replace(/\/v1\/?$/, "") + "/api/tags"
+          const fetchTags = async (url: string) => {
+            const endpoint = url.replace(/\/v1\/?$/, "").replace(/\/$/, "") + "/api/tags"
             const res = await fetch(endpoint, {
-              signal: AbortSignal.timeout(3000),
+              signal: AbortSignal.timeout(15000),
             })
-            if (!res.ok) return {}
-            const data = (await res.json()) as {
+            if (!res.ok) return null
+            return (await res.json()) as {
               models?: Array<{
                 name: string
                 model: string
@@ -759,6 +759,35 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
                 }
                 capabilities?: string[]
               }>
+            }
+          }
+
+          try {
+            let data: {
+              models?: Array<{
+                name: string
+                model: string
+                modified_at?: string
+                size?: number
+                details?: {
+                  parameter_size?: string
+                  family?: string
+                  context_length?: number
+                }
+                capabilities?: string[]
+              }>
+            } | null = null
+
+            try {
+              data = await fetchTags(baseURL)
+            } catch {
+              if (baseURL.includes("localhost")) {
+                try {
+                  data = await fetchTags(baseURL.replace("localhost", "127.0.0.1"))
+                } catch {
+                  data = null
+                }
+              }
             }
             if (!data?.models?.length) return {}
             const models: Record<string, Model> = {}

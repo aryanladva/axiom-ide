@@ -274,6 +274,21 @@ declare global {
     api?: {
       setTitlebar?: (theme: { mode: "light" | "dark"; scheme?: "system" | "light" | "dark" }) => Promise<void>
       exportDebugLogs?: () => Promise<string>
+      checkOllama?: (url?: string) => Promise<{
+        ok: boolean
+        models?: Array<{
+          name: string
+          model?: string
+          size?: number
+          details?: {
+            parameter_size?: string
+            family?: string
+            context_length?: number
+          }
+          capabilities?: string[]
+        }>
+        error?: string
+      }>
     }
   }
 }

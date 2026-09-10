@@ -1209,15 +1209,35 @@ function OllamaProviderConnection(props: { onBack: () => void; setBack?: (handle
     setChecking(true)
     setError(null)
     try {
-      const res = await fetch("http://localhost:11434/api/tags", {
-        signal: AbortSignal.timeout(3000),
-      })
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`)
+      if (window.api?.checkOllama) {
+        const result = await window.api.checkOllama()
+        if (!result.ok || !result.models) {
+          throw new Error(result.error || "Ollama not detected")
+        }
+        setModels(result.models)
+        setChecking(false)
+        return
       }
-      const data = (await res.json()) as {
-        models?: Array<{ name: string; size?: number; details?: { parameter_size?: string } }>
+
+      const tryFetch = async (endpointUrl: string) => {
+        const res = await fetch(endpointUrl, {
+          signal: AbortSignal.timeout(15000),
+        })
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`)
+        }
+        return (await res.json()) as {
+          models?: Array<{ name: string; size?: number; details?: { parameter_size?: string } }>
+        }
       }
+
+      let data: { models?: Array<{ name: string; size?: number; details?: { parameter_size?: string } }> } | undefined
+      try {
+        data = await tryFetch("http://localhost:11434/api/tags")
+      } catch {
+        data = await tryFetch("http://127.0.0.1:11434/api/tags")
+      }
+
       if (!data?.models) {
         throw new Error("Invalid response")
       }

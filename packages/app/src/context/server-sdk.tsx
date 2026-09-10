@@ -247,10 +247,26 @@ function createServerSdkContextBase(server: ServerConnection.Any, scope: ServerS
   const schedule = () => {
     if (timer) return
     const elapsed = Date.now() - last
-    timer = setTimeout(flush, Math.max(0, FLUSH_FRAME_MS - elapsed))
+    if (elapsed >= FLUSH_FRAME_MS) {
+      if (typeof queueMicrotask === "function") {
+        queueMicrotask(flush)
+      } else {
+        timer = setTimeout(flush, 0)
+      }
+      return
+    }
+    timer = setTimeout(flush, FLUSH_FRAME_MS - elapsed)
   }
 
   let streamErrorLogged = false
+  const waitYield = () =>
+    new Promise<void>((resolve) => {
+      if (typeof queueMicrotask === "function") {
+        queueMicrotask(resolve)
+      } else {
+        setTimeout(resolve, 0)
+      }
+    })
   const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
   let attempt: AbortController | undefined
   let run: Promise<void> | undefined
@@ -288,7 +304,7 @@ function createServerSdkContextBase(server: ServerConnection.Any, scope: ServerS
 
             if (Date.now() - yielded < STREAM_YIELD_MS) continue
             yielded = Date.now()
-            await wait(0)
+            await waitYield()
           }
         } catch (error) {
           if (!isStreamClosed(error, attempt?.signal) && !streamErrorLogged) {

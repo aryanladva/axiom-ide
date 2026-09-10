@@ -249,15 +249,15 @@ export type PartComponent = Component<MessagePartProps>
 
 export const PART_MAPPING: Record<string, PartComponent | undefined> = {}
 
-const TEXT_RENDER_PACE_MS = 24
-const TEXT_RENDER_IMMEDIATE = 512
+const TEXT_RENDER_PACE_MS = 16
+const TEXT_RENDER_IMMEDIATE = 1024
 const TEXT_RENDER_SNAP = /[\s.,!?;:)\]]/
 
 function step(size: number) {
-  if (size <= 12) return 2
-  if (size <= 48) return 4
-  if (size <= 96) return 8
-  return Math.min(256, Math.ceil(size / 4))
+  if (size <= 24) return 6
+  if (size <= 96) return 16
+  if (size <= 256) return 32
+  return Math.min(1024, Math.ceil(size / 2))
 }
 
 function next(text: string, start: number) {
