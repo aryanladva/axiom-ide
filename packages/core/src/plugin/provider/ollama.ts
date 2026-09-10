@@ -9,12 +9,14 @@ export const OllamaPlugin = define({
         if (evt.sdk) return
         if (evt.model.providerID !== "ollama" && !evt.package.includes("ollama")) return
         const mod = yield* Effect.promise(() => import("@ai-sdk/openai-compatible"))
+        const rawBaseURL = evt.options.baseURL || "http://127.0.0.1:11434/v1"
+        const baseURL = rawBaseURL.replace("://localhost:", "://127.0.0.1:")
         const options: Record<string, any> = {
           name: "ollama",
-          baseURL: "http://localhost:11434/v1",
           ...evt.options,
+          baseURL,
+          includeUsage: false,
         }
-        if (options.includeUsage !== false) options.includeUsage = true
         evt.sdk = mod.createOpenAICompatible(options as any)
       }),
     )

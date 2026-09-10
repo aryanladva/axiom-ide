@@ -104,6 +104,7 @@ export const SidebarContent = (props: {
               icon="help"
               variant="ghost"
               size="large"
+              disabled
               onClick={props.onOpenHelp}
               aria-label={props.helpLabel()}
             />

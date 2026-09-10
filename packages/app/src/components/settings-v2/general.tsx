@@ -147,14 +147,7 @@ const AppearanceSection: Component<{ controller: AppearanceSettingsController }>
 
         <SettingsRowV2
           title={language.t("settings.general.row.theme.title")}
-          description={
-            <>
-              {language.t("settings.general.row.theme.description")}{" "}
-              <ExternalLink class="settings-v2-link" href="https://opencode.ai/docs/themes/">
-                {language.t("common.learnMore")}
-              </ExternalLink>
-            </>
-          }
+          description={language.t("settings.general.row.theme.description")}
         >
           <SelectV2
             appearance="inline"

@@ -252,7 +252,7 @@
     },
     "packages/desktop": {
       "name": "@axiom-ai/desktop",
-      "version": "1.18.13",
+      "version": "1.0.1",
       "dependencies": {
         "@zip.js/zip.js": "2.7.62",
         "drizzle-orm": "catalog:",

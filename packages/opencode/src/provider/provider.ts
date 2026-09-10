@@ -729,12 +729,18 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
     ollama: Effect.fnUntraced(function* (input: Info) {
       const cfg = yield* dep.config()
       const isConfigured = Boolean(cfg.provider?.["ollama"])
-      const baseURL = cfg.provider?.["ollama"]?.options?.baseURL || "http://localhost:11434/v1"
+      const userOptions = cfg.provider?.["ollama"]?.options ?? {}
+      const rawBaseURL = userOptions.baseURL || "http://127.0.0.1:11434/v1"
+      const baseURL = rawBaseURL.replace("://localhost:", "://127.0.0.1:")
 
       return {
         autoload: isConfigured,
         options: {
+          timeout: false,
+          headerTimeout: false,
+          ...userOptions,
           baseURL,
+          includeUsage: false,
         },
         async getModel(sdk: any, modelID: string, _options?: Record<string, any>) {
           return sdk.languageModel(modelID)
