@@ -78,6 +78,7 @@
 
   /* Paragraphs */
   p {
+    color: inherit;
     margin-bottom: 12px;
   }
 
@@ -173,8 +174,8 @@
   }
 
   .shiki {
-    background: var(--color-background-stronger);
-    color: var(--text-base);
+    background: var(--background-stronger);
+    color: var(--v2-text-text-base);
     font-size: 13px;
     padding: 12px;
     border-radius: 6px;
@@ -331,6 +332,10 @@ body[data-new-layout] [data-component="markdown"] {
 
 body:not([data-new-layout]) [data-component="markdown"] {
   color: var(--text-strong);
+
+  p {
+    color: inherit;
+  }
 
   h1,
   h2,

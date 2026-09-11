@@ -66,7 +66,7 @@
   --color-surface-diff-delete-weaker: var(--surface-diff-delete-weaker);
   --color-surface-diff-delete-strong: var(--surface-diff-delete-strong);
   --color-surface-diff-delete-stronger: var(--surface-diff-delete-stronger);
-  --color-text-base: var(--text-base);
+  --color-text-base: var(--v2-text-text-base, var(--text-strong));
   --color-input-base: var(--input-base);
   --color-input-hover: var(--input-hover);
   --color-input-active: var(--input-active);

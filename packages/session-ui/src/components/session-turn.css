@@ -35,6 +35,7 @@
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    color: var(--v2-text-text-base);
   }
 
   [data-slot="session-turn-compaction"] {
@@ -86,6 +87,7 @@
     flex-direction: column;
     align-self: stretch;
     gap: 12px;
+    color: var(--v2-text-text-base);
   }
 
   [data-slot="session-turn-diffs"] {
@@ -204,7 +206,7 @@
 
   [data-slot="session-turn-diff-chevron"] {
     display: inline-flex;
-    color: var(--icon-weaker);
+    color: var(--icon-weaker-base);
     transform: rotate(-90deg);
     transition: transform 0.15s ease;
   }
@@ -229,6 +231,11 @@
 }
 
 body:not([data-new-layout]) [data-component="session-turn"] {
+  [data-slot="session-turn-assistant-content"],
+  [data-slot="session-turn-message-content"] {
+    color: var(--text-strong);
+  }
+
   .error-card {
     color: var(--text-on-critical-base);
   }

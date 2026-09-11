@@ -348,7 +348,7 @@ body:not([data-new-layout]) {
     border-width: 1px;
 
     [data-component="task-tool-action"] {
-      color: var(--icon-weak);
+      color: var(--icon-weak-base);
     }
 
     [data-slot="basic-tool-tool-subtitle"] {

@@ -169,7 +169,7 @@
 
   [data-slot="session-review-diff-chevron"] {
     display: inline-flex;
-    color: var(--icon-weaker);
+    color: var(--icon-weaker-base);
     transform: rotate(-90deg);
     transition: transform 0.15s ease;
   }

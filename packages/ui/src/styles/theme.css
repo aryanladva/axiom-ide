@@ -4,6 +4,7 @@
   --font-family-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-family-mono--font-feature-settings: normal;
 
+  --font-size-x-small: 11px;
   --font-size-small: 13px;
   --font-size-base: 14px;
   --font-size-large: 16px;
@@ -203,6 +204,7 @@
   --border-disabled: rgba(0, 0, 0, 0.236);
   --border-focus: rgba(0, 0, 0, 0.46);
   --border-weak-base: #e5e5e5;
+  --border-weak: var(--border-weak-base);
   --border-strong-base: rgba(0, 0, 0, 0.151);
   --border-strong-hover: rgba(0, 0, 0, 0.232);
   --border-strong-active: rgba(0, 0, 0, 0.151);
@@ -247,6 +249,9 @@
   --icon-focus: #171717;
   --icon-invert-base: #ffffff;
   --icon-weak-base: #dbdbdb;
+  --icon-weak: var(--icon-weak-base);
+  --icon-weaker: var(--icon-weak-base);
+  --icon-weaker-base: var(--icon-weak-base);
   --icon-weak-hover: #c7c7c7;
   --icon-weak-active: #8f8f8f;
   --icon-weak-selected: #858585;

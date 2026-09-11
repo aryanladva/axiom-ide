@@ -80,7 +80,7 @@ body:not([data-new-layout]) [data-component="card"][data-kind="tool-error-card"]
   }
 
   [data-slot="collapsible-arrow-icon"] {
-    color: var(--icon-weaker);
+    color: var(--icon-weaker-base);
   }
 
   [data-slot="tool-error-card-content"] :where(*)::selection,
