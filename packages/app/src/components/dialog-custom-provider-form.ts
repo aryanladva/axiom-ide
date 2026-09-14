@@ -71,15 +71,19 @@ export function validateCustomProvider(input: ValidateArgs) {
       : undefined
 
   const disabled = input.disabledProviders.includes(providerID)
-  const existsError = idError
+  const isOllama = providerID === "ollama"
+  const existsError = idError || isOllama
     ? undefined
     : input.existingProviderIDs.has(providerID) && !disabled
       ? input.t("provider.custom.error.providerID.exists")
       : undefined
 
   const seenModels = new Set<string>()
+  const hasModels = input.form.models.some((m) => m.id.trim() || m.name.trim())
   const models = input.form.models.map((m) => {
     const id = m.id.trim()
+    const name = m.name.trim()
+    if (!id && !name && (isOllama || !hasModels)) return {}
     const idError = !id
       ? input.t("provider.custom.error.required")
       : seenModels.has(id)
@@ -88,11 +92,15 @@ export function validateCustomProvider(input: ValidateArgs) {
             seenModels.add(id)
             return undefined
           })()
-    const nameError = !m.name.trim() ? input.t("provider.custom.error.required") : undefined
+    const nameError = !name ? input.t("provider.custom.error.required") : undefined
     return { id: idError, name: nameError }
   })
-  const modelsValid = models.every((m) => !m.id && !m.name)
-  const modelConfig = Object.fromEntries(input.form.models.map((m) => [m.id.trim(), { name: m.name.trim() }]))
+  const modelsValid = isOllama && !hasModels ? true : models.every((m) => !m.id && !m.name)
+  const modelConfig = Object.fromEntries(
+    input.form.models
+      .map((m) => [m.id.trim(), { name: m.name.trim() }])
+      .filter(([id]) => Boolean(id)),
+  )
 
   const seenHeaders = new Set<string>()
   const headers = input.form.headers.map((h) => {

@@ -40,17 +40,27 @@ export function DialogCustomProvider(props: Props) {
   )
 }
 
-export function CustomProviderForm(props: { autofocus?: boolean } = {}) {
+export function CustomProviderForm(
+  props: {
+    autofocus?: boolean
+    initial?: {
+      providerID?: string
+      name?: string
+      baseURL?: string
+      apiKey?: string
+    }
+  } = {},
+) {
   const dialog = useDialog()
   const serverSync = useServerSync()
   const serverSDK = useServerSDK()
   const language = useLanguage()
 
   const [form, setForm] = createStore<FormState>({
-    providerID: "",
-    name: "",
-    baseURL: "",
-    apiKey: "",
+    providerID: props.initial?.providerID ?? "",
+    name: props.initial?.name ?? "",
+    baseURL: props.initial?.baseURL ?? "",
+    apiKey: props.initial?.apiKey ?? "",
     models: [modelRow()],
     headers: [headerRow()],
     err: {},
@@ -143,12 +153,23 @@ export function CustomProviderForm(props: { autofocus?: boolean } = {}) {
             key: result.key,
           },
         })
+      } else if (result.providerID === "ollama") {
+        await serverSDK()
+          .client.auth.set({
+            providerID: "ollama",
+            auth: {
+              type: "api",
+              key: "ollama-local",
+            },
+          })
+          .catch(() => undefined)
       }
 
       await serverSync().updateConfig({
         provider: { [result.providerID]: result.config },
         disabled_providers: nextDisabled,
       })
+      await serverSync().refreshProviders().catch(() => undefined)
       return result
     },
     onSuccess: (result) => {
