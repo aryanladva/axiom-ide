@@ -89,7 +89,7 @@
     --v2-yellow-100: #fefaecff;
     --v2-yellow-200: #fcefd0ff;
     --v2-yellow-300: #f7e5b5ff;
-    --v2-yellow-400: #f3da9bff;
+    --v2-yellow-400: #e8b84aff;
     --v2-yellow-500: #f2cf76ff;
     --v2-yellow-600: #f6c251ff;
     --v2-yellow-700: #e7af36ff;
@@ -104,7 +104,7 @@
     --v2-green-200: #d0f0d5ff;
     --v2-green-300: #b8e9c1ff;
     --v2-green-400: #96e3a6ff;
-    --v2-green-500: #6bd586ff;
+    --v2-green-500: #13b8a6ff;
     --v2-green-600: #49c970ff;
     --v2-green-700: #2eaf5aff;
     --v2-green-800: #198b43ff;
@@ -131,10 +131,10 @@
     --v2-blue-100: #ecf1feff;
     --v2-blue-200: #d7e2fcff;
     --v2-blue-300: #c3d4fdff;
-    --v2-blue-400: #a2bcffff;
-    --v2-blue-500: #7698fdff;
-    --v2-blue-600: #3b5cf6ff;
-    --v2-blue-700: #3250dfff;
+    --v2-blue-400: #2da0f5ff;
+    --v2-blue-500: #3f60f2ff;
+    --v2-blue-600: #0f6bebff;
+    --v2-blue-700: #1a4fc5ff;
     --v2-blue-800: #2c47c8ff;
     --v2-blue-900: #263fa9ff;
     --v2-blue-1000: #22388fff;
@@ -146,12 +146,12 @@
     --v2-purple-200: #d5d5fcff;
     --v2-purple-300: #b9b8f5ff;
     --v2-purple-400: #9e99f7ff;
-    --v2-purple-500: #8271f8ff;
+    --v2-purple-500: #6366f1ff;
     --v2-purple-600: #7152f4ff;
     --v2-purple-700: #623be2ff;
     --v2-purple-800: #5230c2ff;
     --v2-purple-900: #442aa1ff;
-    --v2-purple-1000: #361f83ff;
+    --v2-purple-1000: #391e72ff;
     --v2-purple-1100: #2b1b6aff;
     --v2-purple-1200: #221358ff;
 
@@ -159,7 +159,7 @@
     --v2-pink-100: #fdecf3ff;
     --v2-pink-200: #f7d5e4ff;
     --v2-pink-300: #fabcd8ff;
-    --v2-pink-400: #f799c6ff;
+    --v2-pink-400: #e83b78ff;
     --v2-pink-500: #f26cb2ff;
     --v2-pink-600: #f64aabff;
     --v2-pink-700: #e4429eff;
@@ -168,5 +168,14 @@
     --v2-pink-1000: #8c2d61ff;
     --v2-pink-1100: #6f284fff;
     --v2-pink-1200: #5c1d3fff;
+
+    /* ── Custom Dark Palette Brand Tokens ── */
+    --v2-gradient-start: #00a8ff;
+    --v2-gradient-middle: #0066ff;
+    --v2-gradient-end: #6c3bff;
+    --v2-background-glow: #152c70;
+    --v2-action-debug: #e83b78;
+    --v2-action-write: #13b8a6;
+    --v2-action-explain: #e8b84a;
   }
 }

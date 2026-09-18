@@ -11,6 +11,7 @@ import { useProviders } from "@/hooks/use-providers"
 import { decode64 } from "@/utils/base64"
 import { useLanguage } from "@/context/language"
 import { ModelTooltip } from "./model-tooltip"
+import { displayProviderName } from "@/lib/provider-display-name"
 
 type ModelState = ReturnType<typeof useLocal>["model"]
 const featuredProviders = ["opencode", "opencode-go", "openai", "anthropic", "google", "github-copilot"]
@@ -145,7 +146,7 @@ export const DialogSelectModelUnpaidV2: Component<{ model?: ModelState }> = (pro
                     >
                       <ProviderIcon id={provider.id} class="mt-0.5 size-4 shrink-0 text-v2-icon-icon-base" />
                       <span class="flex min-w-0 flex-col">
-                        <span class="truncate">{provider.name}</span>
+                        <span class="truncate">{displayProviderName(provider.id, provider.name)}</span>
                         <Show when={provider.id === "opencode" || provider.id === "opencode-go"}>
                           <span class="truncate font-[440] text-v2-text-text-muted">
                             {language.t(

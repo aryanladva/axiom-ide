@@ -38,6 +38,7 @@ import { useSettings } from "@/context/settings"
 import { popularProviders, useProviders } from "@/hooks/use-providers"
 import { CustomProviderForm } from "./dialog-custom-provider"
 import { decode64 } from "@/utils/base64"
+import { displayProviderName } from "@/lib/provider-display-name"
 
 const CUSTOM_ID = "_custom"
 type ConnectMethod = Extract<IntegrationMethod, { type: "key" | "oauth" }>
@@ -215,7 +216,7 @@ function ProviderPicker(props: {
       {(i) => (
         <div class="px-1.25 w-full flex items-center gap-x-3">
           <ProviderIcon data-slot="list-item-extra-icon" id={i.id} />
-          <span>{i.name}</span>
+          <span>{displayProviderName(i.id, i.name)}</span>
           <Show when={i.id === "opencode"}>
             <div class="text-14-regular text-text-weak">{language.t("dialog.provider.opencode.tagline")}</div>
           </Show>
@@ -343,7 +344,9 @@ function ProviderPickerV2(props: {
                         onClick={() => connect(provider.id)}
                       >
                         <ProviderIcon id={provider.id} class="size-4 shrink-0 text-v2-icon-icon-base" />
-                        <span class="min-w-0 truncate font-[530] text-v2-text-text-base">{provider.name}</span>
+                        <span class="min-w-0 truncate font-[530] text-v2-text-text-base">
+                          {displayProviderName(provider.id, provider.name)}
+                        </span>
                         <Show when={provider.id === "opencode" || provider.id === "opencode-go"}>
                           <span class="min-w-0 truncate font-[440] text-v2-text-text-muted">
                             {language.t(
@@ -724,11 +727,12 @@ function ProviderConnection(props: {
       .refreshProviders()
       .catch(() => undefined)
     dialog.close()
+    const pName = displayProviderName(provider().id, provider().name)
     showToast({
       variant: "success",
       icon: "circle-check",
-      title: language.t("provider.connect.toast.connected.title", { provider: provider().name }),
-      description: language.t("provider.connect.toast.connected.description", { provider: provider().name }),
+      title: language.t("provider.connect.toast.connected.title", { provider: pName }),
+      description: language.t("provider.connect.toast.connected.description", { provider: pName }),
     })
   }
 
@@ -743,11 +747,12 @@ function ProviderConnection(props: {
   props.setBack(goBack)
 
   function MethodSelection() {
+    const pName = displayProviderName(provider().id, provider().name)
     if (newLayout())
       return (
         <div class="flex flex-col gap-2">
           <div class="px-3 text-[13px] font-[440] leading-5 tracking-[-0.04px] text-v2-text-text-muted">
-            {language.t("provider.connect.selectMethod", { provider: provider().name })}
+            {language.t("provider.connect.selectMethod", { provider: pName })}
           </div>
           <div class="flex flex-col">
             <For each={methods()}>
@@ -777,7 +782,7 @@ function ProviderConnection(props: {
     return (
       <>
         <div class="text-14-regular text-text-base">
-          {language.t("provider.connect.selectMethod", { provider: provider().name })}
+          {language.t("provider.connect.selectMethod", { provider: pName })}
         </div>
         <div>
           <List

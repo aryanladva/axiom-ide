@@ -37,6 +37,12 @@ export function NewSessionView(props: {
         data-component="session-new-design"
         class="relative flex-1 min-h-0 overflow-hidden rounded-[10px] bg-v2-background-bg-deep"
       >
+        <div
+          class="pointer-events-none absolute inset-0 opacity-40"
+          style={{
+            background: "radial-gradient(circle at 50% 30%, var(--v2-background-glow, #152C70) 0%, transparent 70%)",
+          }}
+        />
         <div class="absolute inset-x-0 top-[25.375%] flex justify-center px-6">
           <div class={NEW_SESSION_CONTENT_WIDTH}>
             <WordmarkV2 class="h-auto w-full text-v2-background-bg-inverse" />

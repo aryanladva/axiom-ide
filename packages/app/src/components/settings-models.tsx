@@ -10,6 +10,7 @@ import { useModels } from "@/context/models"
 import { popularProviders } from "@/hooks/use-providers"
 import { SettingsList } from "./settings-list"
 import { SettingsServerPicker, SettingsServerScope } from "./settings-server-picker"
+import { displayProviderName } from "@/lib/provider-display-name"
 
 type ModelItem = ReturnType<ReturnType<typeof useModels>["list"]>[number]
 
@@ -60,8 +61,8 @@ const SettingsModelsContent: Component = () => {
       if (!aPopular && bPopular) return 1
       if (aPopular && bPopular) return aIndex - bIndex
 
-      const aName = a.items[0].provider.name
-      const bName = b.items[0].provider.name
+      const aName = displayProviderName(a.category, a.items[0].provider.name)
+      const bName = displayProviderName(b.category, b.items[0].provider.name)
       return aName.localeCompare(bName)
     },
   })
@@ -111,7 +112,9 @@ const SettingsModelsContent: Component = () => {
                 <div class="flex flex-col gap-1">
                   <div class="flex items-center gap-2 pb-2">
                     <ProviderIcon id={group.category} class="size-5 shrink-0 icon-strong-base" />
-                    <span class="text-14-medium text-text-strong">{group.items[0].provider.name}</span>
+                    <span class="text-14-medium text-text-strong">
+                      {displayProviderName(group.category, group.items[0].provider.name)}
+                    </span>
                   </div>
                   <SettingsList>
                     <For each={group.items}>
