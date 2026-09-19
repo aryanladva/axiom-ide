@@ -45,15 +45,19 @@ function providerIconsPlugin() {
 }
 
 async function fetchProviderIcons() {
-  const url = process.env.OPENCODE_MODELS_URL || "https://models.opencode.ai"
-  const providers = await fetch(`${url}/api.json`)
-    .then((res) => res.json())
-    .then((json) => Object.keys(json))
-  await Promise.all(
-    providers.map((provider) =>
-      fetch(`${url}/logos/${provider}.svg`)
-        .then((res) => res.text())
-        .then((svg) => fs.writeFileSync(`./src/assets/icons/provider/${provider}.svg`, svg)),
-    ),
-  )
+  try {
+    const url = process.env.OPENCODE_MODELS_URL || "https://models.opencode.ai"
+    const providers = await fetch(`${url}/api.json`)
+      .then((res) => res.json())
+      .then((json) => Object.keys(json))
+    await Promise.all(
+      providers.map((provider) =>
+        fetch(`${url}/logos/${provider}.svg`)
+          .then((res) => res.text())
+          .then((svg) => fs.writeFileSync(`./src/assets/icons/provider/${provider}.svg`, svg)),
+      ),
+    )
+  } catch (err) {
+    console.warn("Could not fetch remote provider icons, skipping:", err)
+  }
 }

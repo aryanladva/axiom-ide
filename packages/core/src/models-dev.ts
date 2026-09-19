@@ -243,6 +243,12 @@ const layer = Layer.effect(
           yield* Flock.effect(lockKey)
           return yield* fetchAndWrite()
         }),
+      ).pipe(
+        Effect.catch((err) => {
+          return Effect.logError("Failed to fetch models snapshot from remote", { cause: err }).pipe(
+            Effect.as("{}"),
+          )
+        }),
       )
       return withOllama(JSON.parse(text) as Record<string, Provider>)
     }).pipe(Effect.withSpan("ModelsDev.populate"), Effect.orDie)
