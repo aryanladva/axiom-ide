@@ -201,7 +201,6 @@ export const dict = {
   "dialog.provider.group.other": "Інші",
   "dialog.provider.custom.label": "Користувацький провайдер, сумісний з OpenAI",
   "dialog.provider.tag.recommended": "Рекомендовані",
-  "dialog.provider.opencodeGo.tagline": "Недорога підписка для всіх",
   "dialog.provider.anthropic.note": "Прямий доступ до моделей Claude, включаючи Pro та Max",
   "dialog.provider.copilot.note": "Моделі ШІ для допомоги в кодуванні через GitHub Copilot",
   "dialog.provider.openai.note": "Моделі GPT для швидких і універсальних завдань ШІ",

@@ -92,7 +92,6 @@ export const dict = {
   "dialog.provider.group.other": "기타",
   "dialog.provider.custom.label": "OpenAI 호환 사용자 지정 공급자",
   "dialog.provider.tag.recommended": "추천",
-  "dialog.provider.opencodeGo.tagline": "모두를 위한 저렴한 구독",
   "dialog.provider.anthropic.note": "Pro 및 Max를 포함한 Claude 모델에 직접 액세스",
   "dialog.provider.copilot.note": "GitHub Copilot을 통한 코딩 지원용 AI 모델",
   "dialog.provider.openai.note": "빠르고 강력한 범용 AI 작업을 위한 GPT 모델",

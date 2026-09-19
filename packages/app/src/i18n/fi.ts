@@ -96,7 +96,6 @@ export const dict = {
   "dialog.provider.group.other": "Muut",
   "dialog.provider.custom.label": "Mukautettu OpenAI-yhteensopiva palveluntarjoaja",
   "dialog.provider.tag.recommended": "Suositeltu",
-  "dialog.provider.opencodeGo.tagline": "Edullinen tilaus kaikille",
   "dialog.provider.anthropic.note": "Suora pääsy Claude-malleihin, mukaan lukien Pro ja Max",
   "dialog.provider.copilot.note": "AI-malleja koodausapuun GitHub Copilotin kautta",
   "dialog.provider.openai.note": "GPT-mallit nopeisiin, suorituskykyisiin yleisiin tekoälytehtäviin",

@@ -201,7 +201,6 @@ export const dict = {
   "dialog.provider.group.other": "Lainnya",
   "dialog.provider.custom.label": "Penyedia kustom yang kompatibel dengan OpenAI",
   "dialog.provider.tag.recommended": "Direkomendasikan",
-  "dialog.provider.opencodeGo.tagline": "Langganan terjangkau untuk semua orang",
   "dialog.provider.anthropic.note": "Akses langsung ke model Claude, termasuk Pro dan Max",
   "dialog.provider.copilot.note": "Model AI untuk bantuan pengodean melalui GitHub Copilot",
   "dialog.provider.openai.note": "Model GPT untuk tugas AI umum yang cepat dan mumpuni",

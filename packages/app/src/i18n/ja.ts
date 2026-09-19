@@ -191,7 +191,6 @@ export const dict = {
   "dialog.provider.group.other": "その他",
   "dialog.provider.custom.label": "OpenAI互換のカスタムプロバイダー",
   "dialog.provider.tag.recommended": "推奨",
-  "dialog.provider.opencodeGo.tagline": "すべての人に低価格のサブスクリプション",
   "dialog.provider.anthropic.note": "ProやMaxを含むClaudeモデルに直接アクセス",
   "dialog.provider.copilot.note": "GitHub Copilotを通じてコーディングを支援するAIモデル",
   "dialog.provider.openai.note": "高速で高性能な汎用AIタスク向けのGPTモデル",

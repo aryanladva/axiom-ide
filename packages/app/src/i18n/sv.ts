@@ -186,7 +186,6 @@ export const dict = {
   "dialog.provider.group.other": "Andra",
   "dialog.provider.custom.label": "Anpassad OpenAI-kompatibel leverantör",
   "dialog.provider.tag.recommended": "Rekommenderad",
-  "dialog.provider.opencodeGo.tagline": "Lågprisprenumeration för alla",
   "dialog.provider.anthropic.note": "Direkt tillgång till Claude-modeller, inklusive Pro och Max",
   "dialog.provider.copilot.note": "AI-modeller för kodningshjälp via GitHub Copilot",
   "dialog.provider.openai.note": "GPT-modeller för snabba, kapabla allmänna AI-uppgifter",

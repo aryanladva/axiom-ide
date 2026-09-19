@@ -1,6 +1,5 @@
 import { Show, type Component, type JSX } from "solid-js"
 import { useLanguage } from "@/context/language"
-import { displayProviderName } from "@/lib/provider-display-name"
 
 type InputKey = "text" | "image" | "audio" | "video" | "pdf"
 type InputMap = Record<InputKey, boolean>
@@ -47,7 +46,7 @@ export const ModelTooltip: Component<{ model: ModelInfo; latest?: boolean; free?
     if (/grok|xai/.test(value)) return language.t("model.provider.xai")
     if (/llama|meta/.test(value)) return language.t("model.provider.meta")
 
-    return displayProviderName(model.provider.id, model.provider.name)
+    return model.provider.name
   }
   const inputLabel = (value: string) => {
     if (value === "text") return language.t("model.input.text")
@@ -101,7 +100,7 @@ export const ModelTooltip: Component<{ model: ModelInfo; latest?: boolean; free?
         <ModelTooltipRow name={language.t("model.tooltip.model")} value={name()} />
         <ModelTooltipRow
           name={language.t("model.tooltip.provider")}
-          value={displayProviderName(props.model.provider.id, props.model.provider.name)}
+          value={props.model.provider.name}
         />
         <Show when={inputs()}>
           {(value) => <ModelTooltipRow name={language.t("model.tooltip.inputs")} value={value()} />}

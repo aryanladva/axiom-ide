@@ -100,7 +100,6 @@ export const dict = {
   "dialog.provider.group.other": "Andere",
   "dialog.provider.custom.label": "Benutzerdefinierter OpenAI-kompatibler Anbieter",
   "dialog.provider.tag.recommended": "Empfohlen",
-  "dialog.provider.opencodeGo.tagline": "Kostengünstiges Abo für alle",
   "dialog.provider.anthropic.note": "Direkter Zugriff auf Claude-Modelle, einschließlich Pro und Max",
   "dialog.provider.copilot.note": "KI-Modelle zur Programmierunterstützung über GitHub Copilot",
   "dialog.provider.openai.note": "GPT-Modelle für schnelle, leistungsfähige allgemeine KI-Aufgaben",

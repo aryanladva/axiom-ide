@@ -24,10 +24,7 @@ import { createMenuDismissController } from "@/utils/menu-dismiss-controller"
 import { createEventListener } from "@solid-primitives/event-listener"
 import { matchesModelSearch } from "./dialog-select-model-search"
 
-import { displayProviderName } from "@/lib/provider-display-name"
-
-const isFree = (provider: string, cost: { input: number } | undefined) =>
-  provider === "opencode" && (!cost || cost.input === 0)
+const isFree = (_provider: string, _cost: { input: number } | undefined) => false
 
 type ModelState = ReturnType<typeof useLocal>["model"]
 type ModelItem = ReturnType<ModelState["list"]>[number]
@@ -44,9 +41,7 @@ const sortModelGroups = (a: { category: string; items: ModelItem[] }, b: { categ
   if (aPopular && !bPopular) return -1
   if (!aPopular && bPopular) return 1
   if (aPopular && bPopular) return aIndex - bIndex
-  return displayProviderName(a.items[0].provider.id, a.items[0].provider.name).localeCompare(
-    displayProviderName(b.items[0].provider.id, b.items[0].provider.name),
-  )
+  return a.items[0].provider.name.localeCompare(b.items[0].provider.name)
 }
 
 const ModelList: Component<{
@@ -99,7 +94,7 @@ const ModelList: Component<{
       current={model.current()}
       filterKeys={["provider.name", "name", "id"]}
       sortBy={(a, b) => a.name.localeCompare(b.name)}
-      groupBy={(x) => displayProviderName(x.provider.id, x.provider.name)}
+      groupBy={(x) => x.provider.name}
       sortGroupsBy={(a, b) => {
         const aProvider = a.items[0].provider.id
         const bProvider = b.items[0].provider.id
@@ -299,7 +294,7 @@ function createModelSelectorController(input: {
       const query = search.trim()
       const filtered = query
         ? allModels().filter((item) =>
-            matchesModelSearch(query, [item.name, item.id, displayProviderName(item.provider.id, item.provider.name)]),
+            matchesModelSearch(query, [item.name, item.id, item.provider.name]),
           )
         : allModels()
       return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
@@ -505,7 +500,7 @@ function ModelSelectorPopoverV2View(props: {
                     <MenuV2.Group>
                       <MenuV2.GroupLabel class="gap-2 px-3">
                         <span class="min-w-0 truncate">
-                          {displayProviderName(group.items[0].provider.id, group.items[0].provider.name)}
+                          {group.items[0].provider.name}
                         </span>
                       </MenuV2.GroupLabel>
                       <MenuV2.RadioGroup value={props.current()}>

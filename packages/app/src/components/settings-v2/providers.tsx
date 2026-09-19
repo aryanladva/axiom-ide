@@ -11,15 +11,12 @@ import { useServerSync } from "@/context/server-sync"
 import { DialogConnectProvider, useProviderConnectController } from "../dialog-connect-provider"
 import { DialogCustomProvider } from "../dialog-custom-provider"
 import { SettingsListV2 } from "./parts/list"
-import { displayProviderName } from "@/lib/provider-display-name"
 import "./settings-v2.css"
 
 type ProviderSource = "env" | "api" | "config" | "custom"
 type ProviderItem = ReturnType<ReturnType<typeof useProviders>["connected"]>[number]
 
 const PROVIDER_NOTES = [
-  { match: (id: string) => id === "opencode", key: "dialog.provider.opencode.note" },
-  { match: (id: string) => id === "opencode-go", key: "dialog.provider.opencodeGo.tagline" },
   { match: (id: string) => id === "anthropic", key: "dialog.provider.anthropic.note" },
   { match: (id: string) => id.startsWith("github-copilot"), key: "dialog.provider.copilot.note" },
   { match: (id: string) => id === "openai", key: "dialog.provider.openai.note" },
@@ -170,7 +167,7 @@ export const SettingsProvidersV2: Component<{
                         class="settings-v2-provider-icon shrink-0"
                       />
                       <div class="settings-v2-provider-main">
-                        <span class="settings-v2-provider-name truncate">{displayProviderName(item.id, item.name)}</span>
+                        <span class="settings-v2-provider-name truncate">{item.name}</span>
                         <Tag>{type(item)}</Tag>
                       </div>
                     </div>
@@ -182,7 +179,7 @@ export const SettingsProvidersV2: Component<{
                         </span>
                       }
                     >
-                      <ButtonV2 size="normal" variant="ghost-muted" onClick={() => void disconnect(item.id, displayProviderName(item.id, item.name))}>
+                      <ButtonV2 size="normal" variant="ghost-muted" onClick={() => void disconnect(item.id, item.name)}>
                         {language.t("common.disconnect")}
                       </ButtonV2>
                     </Show>
@@ -208,10 +205,7 @@ export const SettingsProvidersV2: Component<{
                     />
                     <div class="settings-v2-provider-copy">
                       <div class="settings-v2-provider-main">
-                        <span class="settings-v2-provider-name">{displayProviderName(item.id, item.name)}</span>
-                        <Show when={item.id === "opencode" || item.id === "opencode-go"}>
-                          <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
-                        </Show>
+                        <span class="settings-v2-provider-name">{item.name}</span>
                       </div>
                       <Show when={note(item.id)}>
                         {(key) => <p class="settings-v2-provider-description">{language.t(key())}</p>}

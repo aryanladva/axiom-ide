@@ -193,7 +193,6 @@ export const dict = {
   "dialog.provider.group.other": "دیگر",
   "dialog.provider.custom.label": "حسب ضرورت OpenAI سے ہم آہنگ فراہم کنندہ",
   "dialog.provider.tag.recommended": "تجویز کردہ",
-  "dialog.provider.opencodeGo.tagline": "سب کے لیے کم لاگت کی رکنیت",
   "dialog.provider.anthropic.note": "پرو اور میکس سمیت Claude ماڈلز تک براہ راست رسائی",
   "dialog.provider.copilot.note": "GitHub Copilot کے ذریعے کوڈنگ امداد کے لیے AI ماڈلز",
   "dialog.provider.openai.note": "تیز رفتار اور مؤثر عمومی AI کاموں کے لیے GPT ماڈلز",

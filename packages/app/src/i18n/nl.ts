@@ -185,7 +185,6 @@ export const dict = {
   "dialog.provider.group.other": "Anders",
   "dialog.provider.custom.label": "Aangepaste OpenAI-compatibele aanbieder",
   "dialog.provider.tag.recommended": "Aanbevolen",
-  "dialog.provider.opencodeGo.tagline": "Goedkoop abonnement voor iedereen",
   "dialog.provider.anthropic.note": "Directe toegang tot Claude-modellen, inclusief Pro en Max",
   "dialog.provider.copilot.note": "AI-modellen voor codeerondersteuning via GitHub Copilot",
   "dialog.provider.openai.note": "GPT-modellen voor snelle, capabele algemene AI-taken",

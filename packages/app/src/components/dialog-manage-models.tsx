@@ -18,7 +18,6 @@ import { useLanguage } from "@/context/language"
 import { useDialog } from "@axiom-ai/ui/context/dialog"
 import { DialogConnectProvider } from "./dialog-connect-provider"
 import { decode64 } from "@/utils/base64"
-import { displayProviderName } from "@/lib/provider-display-name"
 import { SettingsListV2 } from "./settings-v2/parts/list"
 import { SettingsRowV2 } from "./settings-v2/parts/row"
 import "./settings-v2/settings-v2.css"
@@ -65,7 +64,7 @@ export const DialogManageModels: Component = () => {
         groupBy={(x) => x.provider.id}
         groupHeader={(group) => {
           const provider = group.items[0].provider
-          const name = displayProviderName(provider.id, provider.name)
+          const name = provider.name
           return (
             <>
               <span>{name}</span>
@@ -225,7 +224,7 @@ export const DialogManageModelsV2: Component = () => {
                         <div class="flex min-w-0 items-center gap-2">
                           <ProviderIcon id={group.category} width={16} height={16} class="ml-4 shrink-0" />
                           <h3 class="settings-v2-section-title">
-                            {displayProviderName(group.category, group.items[0].provider.name)}
+                            {group.items[0].provider.name}
                           </h3>
                         </div>
                         <div>
@@ -235,7 +234,7 @@ export const DialogManageModelsV2: Component = () => {
                             onChange={(checked) => setProviderVisibility(group.category, checked)}
                             hideLabel
                           >
-                            {displayProviderName(group.category, group.items[0].provider.name)}
+                            {group.items[0].provider.name}
                           </SwitchV2>
                         </div>
                       </div>

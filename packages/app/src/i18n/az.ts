@@ -187,7 +187,6 @@ export const dict = {
   "dialog.provider.group.other": "Digər",
   "dialog.provider.custom.label": "Xüsusi OpenAI-a uyğun provayder",
   "dialog.provider.tag.recommended": "Tövsiyə olunan",
-  "dialog.provider.opencodeGo.tagline": "Hamı üçün aşağı qiymətli abunəlik",
   "dialog.provider.anthropic.note": "Pro və Max daxil olmaqla Claude modellərinə birbaşa giriş",
   "dialog.provider.copilot.note": "GitHub Copilot vasitəsilə kodlaşdırma yardımı üçün AI modelləri",
   "dialog.provider.openai.note": "Sürətli və bacarıqlı ümumi AI tapşırıqları üçün GPT modelləri",

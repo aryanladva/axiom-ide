@@ -13,7 +13,6 @@ import { popularProviders } from "@/hooks/use-providers"
 import { Persist, persisted } from "@/utils/persist"
 import { SettingsListV2 } from "./parts/list"
 import { SettingsRowV2 } from "./parts/row"
-import { displayProviderName } from "@/lib/provider-display-name"
 import "./settings-v2.css"
 
 type ModelItem = ReturnType<ReturnType<typeof useModels>["list"]>[number]
@@ -45,8 +44,8 @@ export const SettingsModelsV2: Component = () => {
       if (!aPopular && bPopular) return 1
       if (aPopular && bPopular) return aIndex - bIndex
 
-      const aName = displayProviderName(a.category, a.items[0].provider.name)
-      const bName = displayProviderName(b.category, b.items[0].provider.name)
+      const aName = a.items[0].provider.name
+      const bName = b.items[0].provider.name
       return aName.localeCompare(bName)
     },
   })
@@ -149,7 +148,7 @@ export const SettingsModelsV2: Component = () => {
                             class="settings-v2-models-provider-icon shrink-0"
                           />
                           <span class="settings-v2-section-title">
-                            {displayProviderName(group.category, group.items[0].provider.name)}
+                            {group.items[0].provider.name}
                           </span>
                         </span>
                       </button>

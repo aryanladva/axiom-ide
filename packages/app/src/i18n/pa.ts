@@ -191,7 +191,6 @@ export const dict = {
   "dialog.provider.group.other": "ہور",
   "dialog.provider.custom.label": "من پسند OpenAI نال رلدا پرووائیڈر",
   "dialog.provider.tag.recommended": "سفارش کیتی",
-  "dialog.provider.opencodeGo.tagline": "ہر اک لئی گھٹ قیمت دی رکنیت",
   "dialog.provider.anthropic.note": "پرو تے میکس سمیت Claude ماڈل تک براہ راست رسائی",
   "dialog.provider.copilot.note": "GitHub Copilot دے ذریعے کوڈنگ دی مدد لئی اے آئی ماڈل",
   "dialog.provider.openai.note": "تیز تے صلاحیت والے عام AI کماں لئی GPT ماڈل",

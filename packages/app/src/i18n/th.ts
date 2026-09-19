@@ -199,7 +199,6 @@ export const dict = {
   "dialog.provider.group.other": "อื่น ๆ",
   "dialog.provider.custom.label": "ผู้ให้บริการแบบกำหนดเองที่เข้ากันได้กับ OpenAI",
   "dialog.provider.tag.recommended": "แนะนำ",
-  "dialog.provider.opencodeGo.tagline": "การสมัครสมาชิกราคาประหยัดสำหรับทุกคน",
   "dialog.provider.anthropic.note": "เข้าถึงโมเดล Claude โดยตรง รวมถึง Pro และ Max",
   "dialog.provider.copilot.note": "โมเดล AI สำหรับการช่วยเหลือในการเขียนโค้ดผ่าน GitHub Copilot",
   "dialog.provider.openai.note": "โมเดล GPT สำหรับงาน AI ทั่วไปที่รวดเร็วและมีความสามารถ",

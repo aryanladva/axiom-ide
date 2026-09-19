@@ -191,7 +191,6 @@ export const dict = {
   "dialog.provider.group.other": "آخر",
   "dialog.provider.custom.label": "موفر مخصص متوافق مع OpenAI",
   "dialog.provider.tag.recommended": "موصى به",
-  "dialog.provider.opencodeGo.tagline": "اشتراك منخفض التكلفة للجميع",
   "dialog.provider.anthropic.note": "وصول مباشر إلى نماذج Claude، بما فيها Pro و Max",
   "dialog.provider.copilot.note": "نماذج ذكاء اصطناعي للمساعدة في البرمجة عبر GitHub Copilot",
   "dialog.provider.openai.note": "نماذج GPT لمهام الذكاء الاصطناعي العامة السريعة والمتقدمة",

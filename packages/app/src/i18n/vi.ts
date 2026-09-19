@@ -192,7 +192,6 @@ export const dict = {
   "dialog.provider.group.other": "Khác",
   "dialog.provider.custom.label": "Nhà cung cấp tương thích OpenAI tùy chỉnh",
   "dialog.provider.tag.recommended": "Đề xuất",
-  "dialog.provider.opencodeGo.tagline": "Đăng ký chi phí thấp cho mọi người",
   "dialog.provider.anthropic.note": "Truy cập trực tiếp các mô hình Claude, bao gồm Pro và Max",
   "dialog.provider.copilot.note": "Các mô hình AI hỗ trợ lập trình qua GitHub Copilot",
   "dialog.provider.openai.note": "Các mô hình GPT nhanh và mạnh mẽ cho tác vụ AI đa dụng",

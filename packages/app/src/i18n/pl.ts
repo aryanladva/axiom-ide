@@ -192,7 +192,6 @@ export const dict = {
   "dialog.provider.group.other": "Inne",
   "dialog.provider.custom.label": "Niestandardowy dostawca zgodny z OpenAI",
   "dialog.provider.tag.recommended": "Zalecane",
-  "dialog.provider.opencodeGo.tagline": "Niedroga subskrypcja dla każdego",
   "dialog.provider.anthropic.note": "Bezpośredni dostęp do modeli Claude, w tym Pro i Max",
   "dialog.provider.copilot.note": "Modele AI do pomocy w kodowaniu przez GitHub Copilot",
   "dialog.provider.openai.note": "Modele GPT do szybkich i wszechstronnych zadań AI",

@@ -203,7 +203,6 @@ export const dict = {
   "dialog.provider.group.other": "其他",
   "dialog.provider.custom.label": "自訂 OpenAI 相容提供者",
   "dialog.provider.tag.recommended": "推薦",
-  "dialog.provider.opencodeGo.tagline": "適合所有人的低成本訂閱",
   "dialog.provider.anthropic.note": "直接存取 Claude 模型，包括 Pro 和 Max",
   "dialog.provider.openai.note": "適合快速且功能強大的通用 AI 工作之 GPT 模型",
   "dialog.provider.copilot.note": "透過 GitHub Copilot 使用程式設計輔助 AI 模型",
