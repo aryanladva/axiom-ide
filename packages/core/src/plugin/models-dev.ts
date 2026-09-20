@@ -125,6 +125,7 @@ export const ModelsDevPlugin = define({
       Effect.fn(function* (integrations) {
         const data = yield* modelsDev.get()
         for (const item of Object.values(data)) {
+          if (item.id === "opencode") continue
           if (item.env.length === 0) continue
           const integrationID = item.id
           integrations.update(integrationID, (integration) => (integration.name = item.name))
@@ -143,6 +144,7 @@ export const ModelsDevPlugin = define({
       Effect.fn(function* (catalog) {
         const data = yield* modelsDev.get()
         for (const item of Object.values(data)) {
+          if (item.id === "opencode") continue
           const providerID = ProviderV2.ID.make(item.id)
           catalog.provider.update(providerID, (provider) => {
             provider.name = item.name

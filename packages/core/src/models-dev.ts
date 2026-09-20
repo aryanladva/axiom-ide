@@ -142,6 +142,8 @@ export const OLLAMA_PROVIDER: Provider = {
 
 function withOllama(record: Record<string, Provider> | undefined): Record<string, Provider> {
   const result = record ? { ...record } : {}
+  delete result["opencode"]
+  delete result["opencode-zen"]
   if (!result["ollama"]) {
     result["ollama"] = OLLAMA_PROVIDER
   }

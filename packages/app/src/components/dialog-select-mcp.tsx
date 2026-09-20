@@ -1,10 +1,16 @@
 import { Component, createMemo, Show } from "solid-js"
 import { useSync } from "@/context/sync"
+import { useServerSync } from "@/context/server-sync"
 import { Dialog } from "@axiom-ai/ui/dialog"
 import { List } from "@axiom-ai/ui/list"
 import { Switch } from "@axiom-ai/ui/switch"
+import { Button } from "@axiom-ai/ui/button"
+import { IconButton } from "@axiom-ai/ui/icon-button"
+import { useDialog } from "@axiom-ai/ui/context/dialog"
 import { useLanguage } from "@/context/language"
 import { useMcpToggle } from "@/context/mcp"
+import { showToast } from "@/utils/toast"
+import { DialogAddMcpServer } from "./dialog-add-mcp-server"
 
 const statusLabels = {
   connected: "mcp.status.connected",
@@ -16,7 +22,9 @@ const statusLabels = {
 
 export const DialogSelectMcp: Component = () => {
   const sync = useSync()
+  const serverSync = useServerSync()
   const language = useLanguage()
+  const dialog = useDialog()
 
   const items = createMemo(() =>
     Object.entries(sync().data.mcp ?? {})
@@ -29,10 +37,36 @@ export const DialogSelectMcp: Component = () => {
   const enabledCount = createMemo(() => items().filter((i) => i.status === "connected").length)
   const totalCount = createMemo(() => items().length)
 
+  const handleAddServer = () => {
+    void dialog.show(() => <DialogAddMcpServer onBack={() => void dialog.show(() => <DialogSelectMcp />)} />)
+  }
+
+  const removeServer = async (name: string) => {
+    const existingConfig = { ...((serverSync().data.config.mcp as Record<string, any>) ?? {}) }
+    delete existingConfig[name]
+    await serverSync().updateConfig({
+      mcp: {
+        ...existingConfig,
+        [name]: undefined,
+      },
+    })
+    showToast({
+      variant: "success",
+      icon: "circle-check",
+      title: language.t("common.save"),
+      description: `${name} removed`,
+    })
+  }
+
   return (
     <Dialog
       title={language.t("dialog.mcp.title")}
       description={language.t("dialog.mcp.description", { enabled: enabledCount(), total: totalCount() })}
+      action={
+        <Button class="h-7 -my-1 text-14-medium" icon="plus-small" tabIndex={-1} onClick={handleAddServer}>
+          {language.t("dialog.mcp.addServer")}
+        </Button>
+      }
     >
       <List
         class="px-3"
@@ -73,7 +107,7 @@ export const DialogSelectMcp: Component = () => {
                   <span class="text-11-regular text-text-weaker truncate">{error()}</span>
                 </Show>
               </div>
-              <div onClick={(e) => e.stopPropagation()}>
+              <div class="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                 <Switch
                   checked={enabled()}
                   disabled={status() === "pending" || (toggle.isPending && toggle.variables === i.name)}
@@ -81,6 +115,12 @@ export const DialogSelectMcp: Component = () => {
                     if (toggle.isPending) return
                     toggle.mutate(i.name)
                   }}
+                />
+                <IconButton
+                  icon="trash"
+                  variant="ghost"
+                  onClick={() => void removeServer(i.name)}
+                  aria-label="Remove MCP server"
                 />
               </div>
             </div>

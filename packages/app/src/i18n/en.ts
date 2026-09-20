@@ -102,6 +102,29 @@ export const dict = {
   "palette.group.commands": "Commands",
   "palette.group.files": "Files",
 
+  "dialog.mcp.title": "MCP Servers",
+  "dialog.mcp.description": "{{enabled}} of {{total}} enabled",
+  "dialog.mcp.empty": "No MCP servers configured",
+  "dialog.mcp.addServer": "Add Server",
+  "dialog.mcp.addServer.title": "Add MCP Server",
+  "dialog.mcp.field.name.label": "Server Name",
+  "dialog.mcp.field.name.placeholder": "my-mcp-server",
+  "dialog.mcp.field.url.label": "URL",
+  "dialog.mcp.field.url.placeholder": "https://example.com/mcp",
+  "dialog.mcp.headers.label": "Headers (optional)",
+  "dialog.mcp.headers.add": "Add Header",
+  "dialog.mcp.headers.remove": "Remove Header",
+  "dialog.mcp.error.name.required": "Server name is required",
+  "dialog.mcp.error.name.format": "Use lowercase letters, numbers, hyphens, or underscores",
+  "dialog.mcp.error.url.required": "URL is required",
+  "dialog.mcp.error.url.format": "Must start with http:// or https://",
+  "mcp.status.connected": "connected",
+  "mcp.status.failed": "failed",
+  "mcp.status.needs_auth": "needs authentication",
+  "mcp.status.needs_client_registration": "needs client registration",
+  "mcp.status.disabled": "disabled",
+  "mcp.auth.clickToAuthenticate": "Click to authenticate",
+
   "dialog.provider.search.placeholder": "Search providers",
   "dialog.provider.empty": "No providers found",
   "dialog.provider.group.popular": "Popular",
@@ -308,18 +331,8 @@ export const dict = {
   "prompt.toast.promptSendFailed.title": "Failed to send prompt",
   "prompt.toast.promptSendFailed.description": "Unable to retrieve session",
 
-  "dialog.mcp.title": "MCPs",
-  "dialog.mcp.description": "{{enabled}} of {{total}} enabled",
-  "dialog.mcp.empty": "No MCPs configured",
-
   "dialog.lsp.empty": "LSPs auto-detected from file types",
   "dialog.plugins.empty": "Plugins configured in opencode.json",
-
-  "mcp.status.connected": "connected",
-  "mcp.status.failed": "failed",
-  "mcp.status.needs_auth": "needs auth",
-  "mcp.status.disabled": "disabled",
-  "mcp.auth.clickToAuthenticate": "Click to authenticate",
 
   "dialog.fork.empty": "No messages to fork from",
 
