@@ -1,4 +1,5 @@
-export * as OpenCode from "./opencode"
+export * as Axiom from "./axiom"
+export * as OpenCode from "./axiom"
 export * as Tool from "./tool"
 
 export { ClientError } from "@axiom-ai/client/effect"

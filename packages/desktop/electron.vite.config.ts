@@ -4,7 +4,7 @@ import appPlugin from "@axiom-ai/app/vite"
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
 
-const OPENCODE_SERVER_DIST = "../opencode/dist/node"
+const OPENCODE_SERVER_DIST = "../axiom/dist/node"
 
 const channel = (() => {
   const raw = process.env.AXIOM_CHANNEL ?? process.env.OPENCODE_CHANNEL

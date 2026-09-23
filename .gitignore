@@ -32,3 +32,6 @@ UPCOMING_CHANGELOG.md
 logs/
 *.bun-build
 tsconfig.tsbuildinfo
+packages/desktop/resources/*.exe
+packages/desktop/resources/axiom-cli*
+packages/desktop/resources/opencode-cli*

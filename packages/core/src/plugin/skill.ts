@@ -6,7 +6,7 @@ import { define } from "./internal"
 import { Effect } from "effect"
 import { AbsolutePath } from "../schema"
 import { SkillV2 } from "../skill"
-import customizeOpencodeContent from "./skill/customize-opencode.md" with { type: "text" }
+import customizeOpencodeContent from "./skill/customize-axiom.md" with { type: "text" }
 
 export const CustomizeOpencodeContent = customizeOpencodeContent
 
@@ -21,7 +21,7 @@ export const Plugin = define({
             name: "customize-opencode",
             description:
               "Use ONLY when the user is editing or creating opencode's own configuration: opencode.json, opencode.jsonc, files under .opencode/, or files under ~/.config/opencode/. Also use when creating or fixing opencode agents, subagents, commands, skills, plugins, MCP servers, or permission rules. Do not use for the user's own application code, or for any project that is not configuring opencode itself.",
-            location: AbsolutePath.make("/builtin/customize-opencode.md"),
+            location: AbsolutePath.make("/builtin/customize-axiom.md"),
             content: CustomizeOpencodeContent,
           }),
         }),

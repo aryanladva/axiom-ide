@@ -14,8 +14,27 @@ export function WordmarkV2(props: Pick<ComponentProps<"svg">, "class">) {
           <stop offset="50%" stop-color="var(--v2-gradient-middle, #0066FF)" />
           <stop offset="100%" stop-color="var(--v2-gradient-end, #6C3BFF)" />
         </linearGradient>
+        <style>{`
+          @keyframes wordmark-v2-entrance {
+            0% {
+              opacity: 0;
+              transform: translateY(4px) scale(0.98);
+              letter-spacing: 2px;
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+              letter-spacing: 7px;
+            }
+          }
+          .wordmark-v2-text {
+            animation: wordmark-v2-entrance 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform-origin: center;
+          }
+        `}</style>
       </defs>
       <text
+        class="wordmark-v2-text"
         x="50%"
         y="50%"
         dominant-baseline="central"
@@ -24,7 +43,7 @@ export function WordmarkV2(props: Pick<ComponentProps<"svg">, "class">) {
         font-family="var(--font-family-sans, system-ui, -apple-system, sans-serif)"
         font-size="64"
         font-weight="800"
-        letter-spacing="6"
+        letter-spacing="7"
       >
         AXIOM
       </text>
