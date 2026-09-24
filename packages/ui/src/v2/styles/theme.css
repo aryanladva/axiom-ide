@@ -383,26 +383,47 @@
   [data-color-scheme="dark"] {
     color-scheme: dark;
 
+    /* ── Figma UI Redesign v2 Tokens ── */
+    --v2-bg-gradient: linear-gradient(135deg, #070B0F 0%, #111418 55%, #241B16 100%);
+    --v2-orange-gradient: linear-gradient(135deg, #FFB36A 0%, #FF7A2F 50%, #C95D21 100%);
+    --v2-wordmark-gradient: linear-gradient(90deg, #FF8A3D 0%, #F5F2ED 18%, #E9E6E1 100%);
+    --v2-panel-gradient: linear-gradient(135deg, rgba(36, 40, 43, 0.78) 0%, rgba(20, 23, 25, 0.58) 100%);
+    --v2-panel-border: rgba(124, 126, 128, 0.48);
+    --v2-glow-left: rgba(255, 122, 47, 0.12);
+    --v2-glow-right: rgba(255, 138, 61, 0.16);
+    --v2-stroke-thin-orange: rgba(244, 123, 43, 0.65);
+    --v2-stroke-thin-grey: rgba(155, 158, 160, 0.22);
+    --v2-stroke-swoosh: rgba(32, 40, 46, 0.72);
+    --v2-chrome-bg: rgba(36, 38, 41, 0.78);
+    --v2-chrome-border: rgba(139, 141, 143, 0.28);
+    --v2-control-bg: rgba(41, 44, 47, 0.78);
+    --v2-control-border: rgba(112, 114, 116, 0.32);
+    --v2-text-primary: #F3F3F1;
+    --v2-text-muted: #929598;
+    --v2-text-faint: #737678;
+    --v2-text-accent: #D97935;
+    --v2-notification-dot: #FF8A3D;
+
     /* ── Background ── */
-    --v2-background-bg-base: #0C111C;
-    --v2-background-bg-deep: #0D1421;
-    --v2-background-bg-layer-01: #0E1628;
-    --v2-background-bg-layer-02: #182032;
-    --v2-background-bg-layer-03: #141A26;
-    --v2-background-bg-layer-04: #182032;
-    --v2-background-bg-inverse: #FFFFFF;
-    --v2-background-bg-contrast: #182032;
-    --v2-background-bg-button-neutral: #141A26;
-    --v2-background-bg-accent: #0F6BEB;
+    --v2-background-bg-base: #070B0F;
+    --v2-background-bg-deep: #111418;
+    --v2-background-bg-layer-01: #141719;
+    --v2-background-bg-layer-02: #24282B;
+    --v2-background-bg-layer-03: #292C2F;
+    --v2-background-bg-layer-04: #34383B;
+    --v2-background-bg-inverse: #F3F3F1;
+    --v2-background-bg-contrast: #24282B;
+    --v2-background-bg-button-neutral: #292C2F;
+    --v2-background-bg-accent: #FF7A2F;
 
     /* ── Text ── */
-    --v2-text-text-base: #E5EBF5;
-    --v2-text-text-muted: #B7C3D9;
-    --v2-text-text-faint: #6F7B96;
+    --v2-text-text-base: #F3F3F1;
+    --v2-text-text-muted: #A9AAAB;
+    --v2-text-text-faint: #737678;
     --v2-text-text-disabled: #555E72;
-    --v2-text-text-inverse: #0C111C;
+    --v2-text-text-inverse: #070B0F;
     --v2-text-text-contrast: #FFFFFF;
-    --v2-text-text-accent: #2DA0F5;
+    --v2-text-text-accent: #FF8A3D;
     --v2-text-text-accent-hover: #3F60F2;
     --v2-text-text-code-accent: #2DA0F5;
 

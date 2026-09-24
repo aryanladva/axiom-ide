@@ -338,14 +338,73 @@ function SessionPanelFrame(props: ParentProps<{ newLayout: boolean; raised?: boo
   return (
     <div
       classList={{
-        "flex-1 min-h-0 flex flex-col": true,
-        "bg-v2-background-bg-base": props.newLayout,
+        "flex-1 min-h-0 flex flex-col relative": true,
         "bg-background-stronger": !props.newLayout,
         "rounded-[10px] overflow-hidden": props.newLayout,
         "shadow-[var(--v2-elevation-raised)]": props.newLayout && props.raised,
       }}
+      style={{
+        background: props.newLayout
+          ? "linear-gradient(135deg, #070B0F 0%, #111418 55%, #241B16 100%)"
+          : undefined,
+      }}
     >
-      {props.children}
+      <Show when={props.newLayout}>
+        <svg
+          class="pointer-events-none absolute inset-0 size-full overflow-hidden z-0"
+          preserveAspectRatio="none"
+          viewBox="0 0 1536 864"
+        >
+          <defs>
+            <filter id="session-v2-glow-left-filter" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="90" />
+            </filter>
+            <filter id="session-v2-glow-right-filter" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="90" />
+            </filter>
+            <filter id="session-v2-swoosh-blur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="25" />
+            </filter>
+          </defs>
+
+          {/* Left glow circle */}
+          <circle cx="0" cy="500" r="420" fill="#FF7A2F" opacity="0.12" filter="url(#session-v2-glow-left-filter)" />
+
+          {/* Right glow circle */}
+          <circle cx="1536" cy="650" r="430" fill="#FF8A3D" opacity="0.16" filter="url(#session-v2-glow-right-filter)" />
+
+          {/* Thick dark swoosh shape near bottom */}
+          <path
+            d="M -100 700 C 400 950 1100 750 1636 300"
+            fill="none"
+            stroke="#20282E"
+            stroke-width="140"
+            opacity="0.72"
+            filter="url(#session-v2-swoosh-blur)"
+          />
+
+          {/* Thin orange curved line stroke */}
+          <path
+            d="M -50 100 C 250 350 450 650 100 900"
+            fill="none"
+            stroke="#F47B2B"
+            stroke-width="2"
+            opacity="0.65"
+          />
+
+          {/* Thin grey curved line stroke */}
+          <path
+            d="M 600 -50 C 1100 300 1400 600 1600 850"
+            fill="none"
+            stroke="#9B9EA0"
+            stroke-width="1.5"
+            opacity="0.22"
+          />
+        </svg>
+      </Show>
+      <div class="relative z-10 flex-1 min-h-0 flex flex-col">
+        {props.children}
+      </div>
     </div>
   )
 }

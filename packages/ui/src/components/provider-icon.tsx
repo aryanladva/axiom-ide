@@ -10,7 +10,7 @@ export type ProviderIconProps = JSX.SVGElementTags["svg"] & {
 export const ProviderIcon: Component<ProviderIconProps> = (props) => {
   const [local, rest] = splitProps(props, ["id", "class", "classList"])
   const resolved = createMemo(() => {
-    if (local.id === "ollama") return "ollama-cloud"
+    if (local.id === "ollama" || local.id === "ollama-local") return "ollama-cloud"
     return iconNames.includes(local.id as IconName) ? local.id : "synthetic"
   })
   return (

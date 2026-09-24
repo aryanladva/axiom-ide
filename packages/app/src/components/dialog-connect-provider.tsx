@@ -40,6 +40,7 @@ import { CustomProviderForm } from "./dialog-custom-provider"
 import { decode64 } from "@/utils/base64"
 
 const CUSTOM_ID = "_custom"
+const OLLAMA_LOCAL_ID = "ollama-local"
 type ConnectMethod = Extract<IntegrationMethod, { type: "key" | "oauth" }>
 
 export function useProviderConnectController(options: { onBack?: () => void } = {}) {
@@ -77,12 +78,12 @@ export const DialogConnectProvider: Component<{
         <Match when={controller.selected() === CUSTOM_ID}>
           <CustomProviderForm autofocus={!newLayout()} />
         </Match>
-        <Match when={controller.selected() === "ollama"}>
+        <Match when={controller.selected() === "ollama" || controller.selected() === OLLAMA_LOCAL_ID}>
           <CustomProviderForm
             autofocus={!newLayout()}
             initial={{
               providerID: "ollama",
-              name: "Ollama",
+              name: controller.selected() === OLLAMA_LOCAL_ID ? "Ollama (Local)" : "Ollama",
               baseURL: "http://localhost:11434/v1",
             }}
           />
@@ -189,13 +190,19 @@ function ProviderPicker(props: {
       key={(x) => x?.id}
       items={() => {
         language.locale()
-        return [{ id: CUSTOM_ID, name: customLabel() }, ...providers.all().values()]
+        return [
+          { id: CUSTOM_ID, name: customLabel() },
+          { id: OLLAMA_LOCAL_ID, name: "Ollama (Local)" },
+          ...providers.all().values(),
+        ]
       }}
       filterKeys={["id", "name"]}
-      groupBy={(x) => (popularProviders.includes(x.id) ? popularGroup() : otherGroup())}
+      groupBy={(x) => (popularProviders.includes(x.id) || x.id === OLLAMA_LOCAL_ID ? popularGroup() : otherGroup())}
       sortBy={(a, b) => {
         if (a.id === CUSTOM_ID) return -1
         if (b.id === CUSTOM_ID) return 1
+        if (a.id === OLLAMA_LOCAL_ID) return -1
+        if (b.id === OLLAMA_LOCAL_ID) return 1
         if (popularProviders.includes(a.id) && popularProviders.includes(b.id))
           return popularProviders.indexOf(a.id) - popularProviders.indexOf(b.id)
         return a.name.localeCompare(b.name)
@@ -237,12 +244,13 @@ function ProviderPickerV2(props: {
     active: undefined as string | undefined,
     connecting: undefined as string | undefined,
   })
-  const featured = ["opencode", "opencode-go", "ollama", "anthropic", "openai", "google", "openrouter", "vercel"]
+  const featured = ["opencode", "opencode-go", OLLAMA_LOCAL_ID, "ollama", "anthropic", "openai", "google", "openrouter", "vercel"]
   const custom = () => ({ id: CUSTOM_ID, name: language.t("dialog.provider.custom.label") })
+  const ollamaLocal = () => ({ id: OLLAMA_LOCAL_ID, name: "Ollama (Local)" })
   const all = createMemo(() => {
     language.locale()
     const query = store.filter.trim().toLowerCase()
-    const values = [custom(), ...providers.all().values()]
+    const values = [custom(), ollamaLocal(), ...providers.all().values()]
     if (!query) return values
     return values.filter((provider) => `${provider.id} ${provider.name}`.toLowerCase().includes(query))
   })

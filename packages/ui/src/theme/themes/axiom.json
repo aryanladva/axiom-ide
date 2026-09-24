@@ -4,24 +4,24 @@
   "id": "axiom",
   "dark": {
     "palette": {
-      "neutral": "#161616",
-      "ink": "#ececec",
-      "primary": "#d97757",
-      "accent": "#e8916b",
+      "neutral": "#070B0F",
+      "ink": "#F3F3F1",
+      "primary": "#FF7A2F",
+      "accent": "#FF8A3D",
       "success": "#4a9b6e",
-      "warning": "#d9a441",
+      "warning": "#FFB36A",
       "error": "#d9534f",
-      "info": "#6ba3d6",
+      "info": "#D97935",
       "diffAdd": "#4a9b6e",
       "diffDelete": "#d9534f"
     },
     "overrides": {
-      "syntax-comment": "#7c7c7c",
-      "syntax-keyword": "#e8916b",
-      "syntax-string": "#4a9b6e",
-      "syntax-primitive": "#6ba3d6",
-      "syntax-property": "#d97757",
-      "syntax-constant": "#d9a441"
+      "syntax-comment": "#929598",
+      "syntax-keyword": "#FF8A3D",
+      "syntax-string": "#FFB36A",
+      "syntax-primitive": "#D97935",
+      "syntax-property": "#FF7A2F",
+      "syntax-constant": "#C95D21"
     }
   },
   "light": {

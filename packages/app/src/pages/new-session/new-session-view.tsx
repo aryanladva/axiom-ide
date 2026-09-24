@@ -2,7 +2,7 @@ import { useDialog } from "@axiom-ai/ui/context/dialog"
 import { Tooltip } from "@axiom-ai/ui/tooltip"
 import { Icon as IconV2 } from "@axiom-ai/ui/v2/icon"
 import { TooltipV2 } from "@axiom-ai/ui/v2/tooltip-v2"
-import { WordmarkV2 } from "@axiom-ai/ui/v2/wordmark-v2"
+import { TaglineV2, WordmarkV2 } from "@axiom-ai/ui/v2/wordmark-v2"
 import { Show, createMemo, createSignal, type Accessor } from "solid-js"
 import { createStore } from "solid-js/store"
 import { Portal } from "solid-js/web"
@@ -35,24 +35,77 @@ export function NewSessionView(props: {
     <div class="@container relative flex flex-col min-h-0 h-full flex-1">
       <div
         data-component="session-new-design"
-        class="relative flex-1 min-h-0 overflow-hidden rounded-[10px] bg-v2-background-bg-deep"
+        class="relative flex-1 min-h-0 overflow-hidden rounded-[10px]"
+        style={{ background: "linear-gradient(135deg, #070B0F 0%, #111418 55%, #241B16 100%)" }}
       >
-        <div
-          class="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            background: "radial-gradient(circle at 50% 30%, var(--v2-background-glow, #152C70) 0%, transparent 70%)",
-          }}
-        />
-        <div class="absolute inset-x-0 top-[25.375%] flex justify-center px-6">
-          <div class={NEW_SESSION_CONTENT_WIDTH}>
-            <WordmarkV2 class="h-auto w-full text-v2-background-bg-inverse" />
-            <div class="mt-8 flex flex-col gap-8">
+        {/* Background Decorative Graphic Elements */}
+        <svg
+          class="pointer-events-none absolute inset-0 size-full overflow-hidden"
+          preserveAspectRatio="none"
+          viewBox="0 0 1536 864"
+        >
+          <defs>
+            <filter id="v2-glow-left-filter" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="90" />
+            </filter>
+            <filter id="v2-glow-right-filter" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="90" />
+            </filter>
+            <filter id="v2-swoosh-blur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="25" />
+            </filter>
+          </defs>
+
+          {/* Left glow circle */}
+          <circle cx="0" cy="500" r="420" fill="#FF7A2F" opacity="0.12" filter="url(#v2-glow-left-filter)" />
+
+          {/* Right glow circle */}
+          <circle cx="1536" cy="650" r="430" fill="#FF8A3D" opacity="0.16" filter="url(#v2-glow-right-filter)" />
+
+          {/* Thick dark swoosh shape near bottom */}
+          <path
+            d="M -100 700 C 400 950 1100 750 1636 300"
+            fill="none"
+            stroke="#20282E"
+            stroke-width="140"
+            opacity="0.72"
+            filter="url(#v2-swoosh-blur)"
+          />
+
+          {/* Thin orange curved line stroke */}
+          <path
+            d="M -50 100 C 250 350 450 650 100 900"
+            fill="none"
+            stroke="#F47B2B"
+            stroke-width="2"
+            opacity="0.65"
+          />
+
+          {/* Thin grey curved line stroke */}
+          <path
+            d="M 600 -50 C 1100 300 1400 600 1600 850"
+            fill="none"
+            stroke="#9B9EA0"
+            stroke-width="1.5"
+            opacity="0.22"
+          />
+        </svg>
+
+        <div class="absolute inset-x-0 top-[20%] flex justify-center px-6">
+          <div class={`${NEW_SESSION_CONTENT_WIDTH} flex flex-col items-center`}>
+            <div class="w-full max-w-[540px] flex flex-col items-center">
+              <WordmarkV2 class="w-full" />
+              <div class="mt-3">
+                <TaglineV2 />
+              </div>
+            </div>
+            <div class="mt-10 w-full flex flex-col gap-6">
               <PromptInputV2Composer controller={props.input} />
               <Show when={props.project.empty()}>
                 <PromptProjectAddButton controller={props.project} />
               </Show>
               <Show when={props.project.selected()}>
-                <div class="flex min-h-7 min-w-0 flex-col items-center justify-center gap-0 text-v2-text-text-faint sm:flex-row">
+                <div class="flex min-h-7 min-w-0 flex-col items-center justify-center gap-0 text-[#D4D5D3] text-[18px] sm:flex-row">
                   <PromptProjectSelector controller={props.project} placement="bottom" />
                   <Show
                     when={props.workspace.bar.visible()}

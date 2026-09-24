@@ -1,9 +1,8 @@
 import { $ } from "bun"
+import path from "path"
 import { downloadCliToResources } from "./utils"
 
-await $`bun run install-electron`
-
-await $`bun ./scripts/copy-icons.ts ${process.env.OPENCODE_CHANNEL ?? "dev"}`
-
-await $`cd ../axiom && bun script/build-node.ts`
+const desktopDir = path.resolve(import.meta.dirname, "..")
+await $`bun ${path.join(desktopDir, "scripts/copy-icons.ts")} ${process.env.OPENCODE_CHANNEL ?? "dev"}`
+await $`cd ${path.resolve(desktopDir, "../axiom")} && bun script/build-node.ts`
 await downloadCliToResources()

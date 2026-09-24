@@ -117,6 +117,10 @@
   min-width: 0;
 }
 
+[data-titlebar-tab][data-active="true"] [data-slot="tab-title"] {
+  text-shadow: 0 0 6px rgba(240, 240, 238, 0.12);
+}
+
 [data-titlebar-tab][data-editing="true"] [data-slot="tab-title"] {
   min-width: 0;
   max-width: 100%;
